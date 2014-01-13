@@ -1,0 +1,16 @@
+[
+{
+  "modid": "TCT",
+  "name": "TinCanTelephony",
+  "description": "An alternative form of Minecraft communication.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authors": ["medsouz"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
