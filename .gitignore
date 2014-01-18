@@ -2,7 +2,12 @@
 .settings/
 build/
 bin/
+config/
 eclipse/
 gradle/
+logs/
+saves/
 .classpath
 .project
+hs_err_*
+options.txt
