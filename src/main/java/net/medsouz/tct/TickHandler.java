@@ -21,10 +21,10 @@ public class TickHandler {
 	@SubscribeEvent
 	public void renderTick(RenderTickEvent event) {
 		//TODO: Don't hardcode this
-		OverlayRenderer.drawImage(new ResourceLocation("tct", "textures/person.png"), 5, 5, 16, 16, 0.5f);
+		OverlayRenderer.drawImage(new ResourceLocation("tct", "textures/person.png"), 5, 4, 16, 16, 0.5f);
 		Minecraft.getMinecraft().fontRenderer.drawString("1", 17, 15, 0xFFFFFF);
-		OverlayRenderer.drawImage(new ResourceLocation("tct", "textures/envelope.png"), 5, 26, 16, 16, 0.5f);
-		Minecraft.getMinecraft().fontRenderer.drawString("1", 17, 34, 0xFFFFFF);
+		OverlayRenderer.drawImage(new ResourceLocation("tct", "textures/envelope.png"), 5, 23, 16, 16, 0.5f);
+		Minecraft.getMinecraft().fontRenderer.drawString("1", 17, 32, 0xFFFFFF);
 	}
 
 	/**
