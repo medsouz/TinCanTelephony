@@ -1,6 +1,7 @@
 package net.medsouz.tct;
 
 import net.medsouz.tct.networking.TCTConnection;
+import net.medsouz.tct.networking.packet.PacketManager;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -20,6 +21,7 @@ public class TinCanTelephony {
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		FMLCommonHandler.instance().bus().register(new TickHandler());
+		PacketManager.registerPackets();
 		connection = new TCTConnection();
 	}
 }
