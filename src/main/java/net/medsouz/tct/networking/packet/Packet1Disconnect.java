@@ -5,6 +5,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 
+/**
+ * @author medsouz
+ *
+ */
 public class Packet1Disconnect extends Packet{
 
 	public String message;

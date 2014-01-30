@@ -3,6 +3,10 @@ package net.medsouz.tct.networking.packet;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 
+/**
+ * @author medsouz
+ *
+ */
 public class Packet0PlayerLogin extends Packet{
 
 	public String username = "";
