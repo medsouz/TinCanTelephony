@@ -2,6 +2,7 @@ package net.medsouz.tct;
 
 import net.medsouz.tct.gui.OverlayRenderer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.GameSettings;
 import net.minecraft.util.ResourceLocation;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
@@ -27,6 +28,8 @@ public class TickHandler {
 		Minecraft.getMinecraft().fontRenderer.drawString("1", 17, 32, 0xFFFFFF);
 	}
 
+	private boolean overlayDebounce = false;
+	
 	/**
 	 * Used to handle user input
 	 * 
@@ -35,6 +38,13 @@ public class TickHandler {
 	 */
 	@SubscribeEvent
 	public void clientTick(ClientTickEvent event) {
-		
+		if(GameSettings.isKeyDown(TinCanTelephony.overlayKey)){
+			if(!overlayDebounce){
+				overlayDebounce = true;
+				System.out.println("Open the overlay!");
+			}
+		}else{
+			overlayDebounce = false;
+		}
 	}
 }
