@@ -3,6 +3,7 @@
 build/
 bin/
 config/
+crash-reports/
 eclipse/
 gradle/
 logs/
