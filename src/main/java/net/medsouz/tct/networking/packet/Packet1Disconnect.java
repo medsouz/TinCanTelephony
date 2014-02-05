@@ -1,9 +1,7 @@
 package net.medsouz.tct.networking.packet;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
-import java.io.DataOutputStream;
 
 /**
  * @author medsouz
