@@ -1,7 +1,10 @@
 package net.medsouz.tct;
 
+import net.medsouz.tct.gui.GuiProfile;
 import net.medsouz.tct.gui.OverlayRenderer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiMainMenu;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.util.ResourceLocation;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -10,8 +13,12 @@ import cpw.mods.fml.common.gameevent.TickEvent.RenderTickEvent;
 
 /**
  * @author medsouz
+ * @author Gord360
  */
 public class TickHandler {
+	Minecraft mc = Minecraft.getMinecraft();
+	GuiProfile profile = new GuiProfile(new GuiMainMenu());
+	private boolean overlayDebounce = false;
 
 	/**
 	 * Used to render the overlay.
@@ -21,15 +28,14 @@ public class TickHandler {
 	 */
 	@SubscribeEvent
 	public void renderTick(RenderTickEvent event) {
-		//TODO: Don't hardcode this
-		OverlayRenderer.drawImage(new ResourceLocation("tct", "textures/person.png"), 5, 4, 16, 16, 0.5f);
-		Minecraft.getMinecraft().fontRenderer.drawString("1", 17, 15, 0xFFFFFF);
-		OverlayRenderer.drawImage(new ResourceLocation("tct", "textures/envelope.png"), 5, 23, 16, 16, 0.5f);
-		Minecraft.getMinecraft().fontRenderer.drawString("1", 17, 32, 0xFFFFFF);
+		// Don't hardcode this
+		if (mc.currentScreen instanceof GuiMainMenu) {
+
+			OverlayRenderer.drawImage(new ResourceLocation("tct","/textures/Emerald.png"), 5, 5, 16, 16, .75f);
+			//OverlayRenderer.drawImage(new ResourceLocation("tct", "/textures/username.png"), 26, 5, 16, 16, 1f);
+		}
 	}
 
-	private boolean overlayDebounce = false;
-	
 	/**
 	 * Used to handle user input
 	 * 
@@ -38,12 +44,12 @@ public class TickHandler {
 	 */
 	@SubscribeEvent
 	public void clientTick(ClientTickEvent event) {
-		if(GameSettings.isKeyDown(TinCanTelephony.overlayKey)){
-			if(!overlayDebounce){
+		if (GameSettings.isKeyDown(TinCanTelephony.overlayKey)) {
+			if (!overlayDebounce) {
 				overlayDebounce = true;
-				System.out.println("Open the overlay!");
+				mc.func_147108_a(profile);
 			}
-		}else{
+		} else {
 			overlayDebounce = false;
 		}
 	}
