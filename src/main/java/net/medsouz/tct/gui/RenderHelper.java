@@ -99,14 +99,13 @@ public class RenderHelper {
 	 */
 	public static ResourceLocation downloadImage(String URL) {
 		ResourceLocation r = new ResourceLocation(URL);
-        TextureManager texturemanager = Minecraft.getMinecraft().getTextureManager();
-        Object object = texturemanager.getTexture(r);
-        if (object == null)
-        {
-            object = new ThreadDownloadImageData(URL, null, null);
-            texturemanager.loadTexture(r, (ITextureObject)object);
-        }
+		TextureManager texturemanager = Minecraft.getMinecraft().getTextureManager();
+		Object object = texturemanager.getTexture(r);
+		if (object == null) {
+			object = new ThreadDownloadImageData(URL, null, null);
+			texturemanager.loadTexture(r, (ITextureObject) object);
+		}
 		return r;
-		
+
 	}
 }
