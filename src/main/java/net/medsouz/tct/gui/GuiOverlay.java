@@ -37,6 +37,9 @@ public class GuiOverlay extends GuiScreen {
 	 * KeyListener.keyTyped(KeyEvent e).
 	 */
 	protected void keyTyped(char par1, int par2) {
+		if(par2 == Keyboard.KEY_ESCAPE) {
+			Minecraft.getMinecraft().currentScreen = oldScreen;
+		}
 	}
 
 	private int iconSpacing = 10;
