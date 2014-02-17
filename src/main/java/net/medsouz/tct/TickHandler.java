@@ -1,9 +1,9 @@
 package net.medsouz.tct;
 
-import net.medsouz.tct.gui.GuiProfile;
-import net.medsouz.tct.gui.OverlayRenderer;
+import net.medsouz.tct.api.FriendManager;
+import net.medsouz.tct.gui.GuiOverlay;
+import net.medsouz.tct.gui.RenderHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.util.ResourceLocation;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -16,8 +16,6 @@ import cpw.mods.fml.common.gameevent.TickEvent.RenderTickEvent;
  */
 public class TickHandler {
 	Minecraft mc = Minecraft.getMinecraft();
-	GuiProfile profile = new GuiProfile(new GuiMainMenu());
-	private boolean overlayDebounce = false;
 
 	/**
 	 * Used to render the overlay.
@@ -28,10 +26,11 @@ public class TickHandler {
 	@SubscribeEvent
 	public void renderTick(RenderTickEvent event) {
 		// Don't hardcode this
-		if (mc.currentScreen instanceof GuiMainMenu) {
-
-			OverlayRenderer.drawImage(new ResourceLocation("tct","/textures/Emerald.png"), 5, 5, 16, 16, .75f);
-			//OverlayRenderer.drawImage(new ResourceLocation("tct", "/textures/username.png"), 26, 5, 16, 16, 1f);
+		if (!(mc.currentScreen != null && (mc.currentScreen instanceof GuiOverlay))) {
+			RenderHelper.drawImage(new ResourceLocation("tct", "textures/person.png"), 5, 4, 16, 16, 0.5f);
+			Minecraft.getMinecraft().fontRenderer.drawString(Integer.toString(FriendManager.getOnlineFriendsCount()), 17, 15, 0xFFFFFF);
+			RenderHelper.drawImage(new ResourceLocation("tct", "textures/envelope.png"), 5, 23, 16, 16, 0.5f);
+			Minecraft.getMinecraft().fontRenderer.drawString("0", 17, 32, 0xFFFFFF);
 		}
 	}
 
@@ -44,12 +43,9 @@ public class TickHandler {
 	@SubscribeEvent
 	public void clientTick(ClientTickEvent event) {
 		if (GameSettings.isKeyDown(TinCanTelephony.overlayKey)) {
-			if (!overlayDebounce) {
-				overlayDebounce = true;
-				mc.func_147108_a(profile);
+			if (mc.currentScreen != null && !(mc.currentScreen instanceof GuiOverlay) || mc.currentScreen == null) {
+				mc.func_147108_a(new GuiOverlay(mc.currentScreen));
 			}
-		} else {
-			overlayDebounce = false;
 		}
 	}
 }

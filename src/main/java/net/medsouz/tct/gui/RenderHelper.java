@@ -1,10 +1,14 @@
 package net.medsouz.tct.gui;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.ThreadDownloadImageData;
 import net.minecraft.client.renderer.texture.ITextureObject;
 import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
@@ -82,15 +86,9 @@ public class RenderHelper {
 	public static void drawImage(ResourceLocation image, int posX, int posY, int width, int height, float r, float g, float b, float opacity, float u, float v) {
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_FOG);
-		Tessellator tessellator = Tessellator.instance;
 		Minecraft.getMinecraft().renderEngine.bindTexture(image);
 		GL11.glColor4f(r, g, b, opacity);
-		tessellator.startDrawingQuads();
-		tessellator.addVertexWithUV(posX, posY + height, 0, 0, v);
-		tessellator.addVertexWithUV(posX + width, posY + height, 0, u, v);
-		tessellator.addVertexWithUV(posX + width, posY, 0, u, 0);
-		tessellator.addVertexWithUV(posX, posY, 0, 0, 0);
-		tessellator.draw();
+		drawQuad(posX, posY, width, height, 0, u, 0, v);
 	}
 	
 	/**
@@ -107,5 +105,57 @@ public class RenderHelper {
 		}
 		return r;
 
+	}
+	
+	/**
+	 * Draws an item on the screen
+	 * @param id Item ID
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 */
+	public static void drawItemIcon(int id, int x, int y, int width, int height) {
+		Item i = Item.func_150899_d(id);
+		IIcon icon = i.getIcon(new ItemStack(i), 1);
+		Minecraft.getMinecraft().getTextureManager().bindTexture(Minecraft.getMinecraft().getTextureManager().getResourceLocation(i.getSpriteNumber()));
+		drawQuad(x, y, width, height, icon.getMinU(), icon.getMaxU(), icon.getMinV(), icon.getMaxV());
+	}
+	
+	/**
+	 * Draws a particle on the screen
+	 * @param particleId Particle ID number, can usually be found in the EffectFX class of the particle.
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 */
+	public static void drawParticle(int particleId, int x, int y, int width, int height) {
+		ResourceLocation pTex = new ResourceLocation("textures/particle/particles.png");
+		float u = (particleId % 16) / 16.0f;
+		float v = (particleId / 16) / 16.0f;
+		Minecraft.getMinecraft().renderEngine.bindTexture(pTex);
+		drawQuad(x, y, width, height, u, u + 0.0624375F, v, v + 0.0624375F);
+	}
+	
+	public static void drawBlockSide(int id, int side, int x, int y, int width, int height) {
+		drawBlockSide(id, side, x, y, width, height, 1, 1);
+	}
+	
+	public static void drawBlockSide(int id, int side, int x, int y, int width, int height, float u, float v) {
+		Block b = Block.func_149729_e(2);
+		IIcon icon = b.func_149733_h(side);
+		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("textures/blocks/"+icon.getIconName()+".png"));
+		drawQuad(x, y, width, height, 0, u, 0, v);
+	}
+	
+	public static void drawQuad(int x, int y, int width, int height, float minU, float maxU, float minV, float maxV) {
+		Tessellator tessellator = Tessellator.instance;
+		tessellator.startDrawingQuads();
+		tessellator.addVertexWithUV(x, y + height, 0, minU, maxV);
+		tessellator.addVertexWithUV(x + width, y + height, 0, maxU, maxV);
+		tessellator.addVertexWithUV(x + width, y, 0, maxU, minV);
+		tessellator.addVertexWithUV(x, y, 0, minU, minV);
+		tessellator.draw();
 	}
 }

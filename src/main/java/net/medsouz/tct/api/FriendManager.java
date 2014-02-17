@@ -12,6 +12,8 @@ import net.medsouz.tct.api.objects.Friend;
 public class FriendManager {
 	
 	private static List<Friend> friends = new ArrayList<Friend>();
+	private static int numOnline = 0;
+	
 	
 	/**
 	 * Refreshes the friends list.
@@ -25,5 +27,12 @@ public class FriendManager {
 	 */
 	public static List<Friend> getFriends() {
 		return friends;
+	}
+	
+	/**
+	 * @return Number of online friends
+	 */
+	public static int getOnlineFriendsCount(){
+		return numOnline;	
 	}
 }

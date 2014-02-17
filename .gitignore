@@ -8,6 +8,7 @@ crash-reports/
 eclipse/
 gradle/
 logs/
+resourcepacks/
 saves/
 .classpath
 .project
