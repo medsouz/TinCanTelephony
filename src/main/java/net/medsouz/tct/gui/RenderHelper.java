@@ -143,7 +143,7 @@ public class RenderHelper {
 	}
 	
 	public static void drawBlockSide(int id, int side, int x, int y, int width, int height, float u, float v) {
-		Block b = Block.func_149729_e(2);
+		Block b = Block.func_149729_e(id);
 		IIcon icon = b.func_149733_h(side);
 		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("textures/blocks/"+icon.getIconName()+".png"));
 		drawQuad(x, y, width, height, 0, u, 0, v);
