@@ -120,7 +120,7 @@ public class GuiOverlay extends GuiScreen {
 		// Draw screen
 		if (screen != null) {
 			RenderHelper.drawBlockSide(1, 0, 60, 20, field_146294_l - 80, field_146295_m - 40, (field_146294_l - 80) / 50, (field_146295_m - 40) / 50);
-
+			screen.drawScreen(this, 60, 20, field_146294_l - 80, field_146295_m - 40);
 		} else {//if there is no screen open then draw the windows
 		
 			//put the most recently moved window on top
