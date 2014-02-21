@@ -70,7 +70,6 @@ public class GuiOverlay extends GuiScreen {
 	private int iconSpacing = 10;
 	private int wordSpacing = 25;
 	
-	private boolean draggingWindow = false;
 	private Window draggedWindow = null;
 	private int mouseXLast, mouseYLast;
 	/**
@@ -82,12 +81,12 @@ public class GuiOverlay extends GuiScreen {
 		}
 		this.drawGradientRect(0, 0, this.field_146294_l, this.field_146295_m, -0x3FEFEFF0, -0x2FEFEFF0);
 		//Background
-		RenderHelper.drawBlockSide(2, 2, 0, this.field_146295_m / 2 - 100, 50, 50, 1, 1);
-		RenderHelper.drawBlockSide(2, 0, 0, this.field_146295_m / 2 - 50, 50, 140, 1, 150 / 50);
+		RenderHelper.drawBlockSide(2, 2, 0, this.field_146295_m / 2 - 115, 50, 50, 1, 1);
+		RenderHelper.drawBlockSide(2, 0, 0, this.field_146295_m / 2 - 65, 50, 180, 1, 150 / 50);
 		//Icons
 		//Profile
-		int off = -90;
-		RenderHelper.drawImage(RenderHelper.downloadImage("https://minotar.net/avatar/"+username+"/32.png"), 9, this.field_146295_m / 2 + off, 32, 32);
+		int off = -105;
+		RenderHelper.drawImage(RenderHelper.downloadImage("https://minotar.net/avatar/2kool4u98/32.png"), 9, this.field_146295_m / 2 + off, 32, 32);
 		off += wordSpacing;
 		this.drawCenteredString(Minecraft.getMinecraft().fontRenderer, "Profile", 25, this.field_146295_m / 2 + off, 0xFFFFFF);
 		//Friends
@@ -110,7 +109,11 @@ public class GuiOverlay extends GuiScreen {
 		RenderHelper.drawItemIcon(257, 9, this.field_146295_m / 2 + off, 32, 32);
 		off += wordSpacing;
 		this.drawCenteredString(Minecraft.getMinecraft().fontRenderer, "Settings", 25, this.field_146295_m / 2 + off, 0xFFFFFF);
-		
+		//Servers
+		off += iconSpacing;
+		RenderHelper.drawItemIcon(399, 9, this.field_146295_m / 2 + off, 32, 32);
+		off += wordSpacing;
+		this.drawCenteredString(Minecraft.getMinecraft().fontRenderer, "Servers", 25, this.field_146295_m / 2 + off, 0xFFFFFF);
 		//RenderHelper.drawBlockSide(44, 2, 100, 90, 128, 16, 3, 0.5f);
 		//RenderHelper.drawBlockSide(98, 0, 100, 106, 128, 128, 3, 3);
 		
