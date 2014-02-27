@@ -35,6 +35,13 @@ public class PacketManager {
 				out.writeInt(p.getID());
 				byte[] data = p.writeData();
 				out.writeInt(data.length);
+				for (int b = 0; b < data.length; b++) { //prevent endpacket from being sent by the user.
+					if (data.length - b >= 2 && data[b] == 0x0D && data[b + 1] == 0x0A) {
+						data[b] = 0; //replace with the unicode NULL character.
+						data[b + 1] = 0;
+						System.out.println("Endpacket found in at "+b);
+					}
+				}
 	 			out.write(data, 0, data.length);
 	 			out.write(endPacket, 0 , endPacket.length);
 				out.flush();
