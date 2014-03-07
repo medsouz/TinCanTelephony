@@ -49,12 +49,28 @@ public class GuiOverlay extends GuiScreen {
 		}
 	}
 	
+	Window getTopWindow(int mouseX, int mouseY){
+		Window window = null;
+		for(Window w : windows){
+			if(mouseX > w.getX() && mouseX < w.getX() + w.getWidth() && mouseY > w.getY() - 16 && mouseY < w.getY() + w.getHeight()){
+				window = w;
+			}
+		}
+		return window;
+	}
+	
 	protected void mouseClicked(int mouseX, int mouseY, int par3) {
 		super.mouseClicked(mouseX, mouseY, par3);
-		for(int x = windows.size() - 1; x >= 0; x--) {
+		//for(int x = windows.size() - 1; x >= 0; x--) {
+		for(int x = 0; x < windows.size(); x++){
 			Window w = windows.get(x);
-			if(mouseX > w.getX() && mouseX < w.getX() + w.getWidth() && mouseY > w.getY() - 16 && mouseY < w.getY() + w.getHeight()){
+			if(getTopWindow(mouseX, mouseY) == w){
 				resetWindow = w;
+				if(mouseX > w.getX() && mouseX < w.getX() + w.getWidth() && mouseY > w.getY() - 16 && mouseY < w.getY()){
+					draggedWindow = w;
+					mouseXLast = mouseX;
+					mouseYLast = mouseY;
+				}
 			}
 			
 			for(GuiButton b : w.getButtonList()) {
@@ -133,13 +149,13 @@ public class GuiOverlay extends GuiScreen {
 			for(int x = windows.size() - 1; x >= 0; x--){//drag priority is the opposite of draw priority
 				Window w = windows.get(x);
 				if(Mouse.isButtonDown(0)) {
-					if(draggedWindow == null) {
+					/*if(draggedWindow == null) {
 						if(mouseX > w.getX() && mouseX < w.getX() + w.getWidth() && mouseY > w.getY() - 16 && mouseY < w.getY()){
 							draggedWindow = w;
 							mouseXLast = mouseX;
 							mouseYLast = mouseY;
 						}
-					}else if (draggedWindow == w) {
+					}else*/ if (draggedWindow == w) {
 						int diffX = mouseX - mouseXLast;
 						int diffY = mouseY - mouseYLast;
 						w.setPosition(w.getX() + diffX, w.getY() + diffY);
@@ -156,8 +172,13 @@ public class GuiOverlay extends GuiScreen {
 				RenderHelper.drawBlockSide(98, 0, w.getX(), w.getY(), w.getWidth(), w.getHeight(), w.getWidth() / 50f, w.getHeight() / 50f);
 				this.drawCenteredString(Minecraft.getMinecraft().fontRenderer, w.getTitle(), w.getX() + w.getWidth() / 2, w.getY() - 12, 0xFFFFFF);
 				w.drawWindowContents();
+				int x = -1, y = -1;
+				if(getTopWindow(mouseX, mouseY) == w) {//only give the real mouse position to top buttons, this prevents the back window from highlighting buttons.
+					x = mouseX;
+					y = mouseY;
+				}
 				for(GuiButton b : w.getButtonList()) {
-					b.func_146112_a(this.field_146297_k, mouseX, mouseY);
+					b.func_146112_a(this.field_146297_k, x, y);
 					GL11.glColor3f(1f, 1f, 1f);//fix color leak
 				}
 			}
