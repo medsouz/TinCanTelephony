@@ -34,7 +34,7 @@ public class GuiOverlay extends GuiScreen {
 	 * Adds the buttons (and other controls) to the screen in question.
 	 */
 	public void initGui() {
-		this.field_146292_n.clear();
+		this.buttonList.clear();
 		windows.add(new WindowTest(this, "DEBUG_WINDOW 1 - Please Ignore", 100,150,170,50));
 		windows.add(new WindowTest(this, "DEBUG_WINDOW 2 - Please Ignore", 100,50,170,50));
 	}
@@ -72,8 +72,8 @@ public class GuiOverlay extends GuiScreen {
 					mouseYLast = mouseY;
 				}
 				for(GuiButton b : w.getButtonList()) {
-					if (b.func_146116_c(this.field_146297_k, mouseX, mouseY)){
-						b.func_146113_a(this.field_146297_k.func_147118_V());
+					if (b.mousePressed(mc, mouseX, mouseY)){
+						b.func_146113_a(mc.getSoundHandler());
 						w.onButtonPress(b);
 					}
 				}
@@ -93,48 +93,48 @@ public class GuiOverlay extends GuiScreen {
 		if(oldScreen != null) {
 			oldScreen.drawScreen(0, 0, par3);
 		}
-		this.drawGradientRect(0, 0, this.field_146294_l, this.field_146295_m, -0x3FEFEFF0, -0x2FEFEFF0);
+		this.drawGradientRect(0, 0, width, height, -0x3FEFEFF0, -0x2FEFEFF0);
 		//Background
-		RenderHelper.drawBlockSide(2, 2, 0, this.field_146295_m / 2 - 115, 50, 50, 1, 1);
-		RenderHelper.drawBlockSide(2, 0, 0, this.field_146295_m / 2 - 65, 50, 180, 1, 150 / 50);
+		RenderHelper.drawBlockSide(2, 2, 0, height / 2 - 115, 50, 50, 1, 1);
+		RenderHelper.drawBlockSide(2, 0, 0, height / 2 - 65, 50, 180, 1, 150 / 50);
 		//Icons
 		//Profile
 		int off = -105;
-		RenderHelper.drawImage(RenderHelper.downloadImage("https://minotar.net/avatar/"+username+"/32.png"), 9, this.field_146295_m / 2 + off, 32, 32);
+		RenderHelper.drawImage(RenderHelper.downloadImage("https://minotar.net/avatar/"+username+"/32.png"), 9, height / 2 + off, 32, 32);
 		off += wordSpacing;
-		this.drawCenteredString(Minecraft.getMinecraft().fontRenderer, "Profile", 25, this.field_146295_m / 2 + off, 0xFFFFFF);
+		this.drawCenteredString(Minecraft.getMinecraft().fontRenderer, "Profile", 25, height / 2 + off, 0xFFFFFF);
 		//Friends
 		off += iconSpacing;
-		RenderHelper.drawParticle(80, 9, this.field_146295_m / 2 + off, 32, 32);
+		RenderHelper.drawParticle(80, 9, height / 2 + off, 32, 32);
 		off += wordSpacing;
-		this.drawCenteredString(Minecraft.getMinecraft().fontRenderer, "Friends", 25, this.field_146295_m / 2 + off, 0xFFFFFF);
+		this.drawCenteredString(Minecraft.getMinecraft().fontRenderer, "Friends", 25, height / 2 + off, 0xFFFFFF);
 		//Messages
 		off += iconSpacing;
-		RenderHelper.drawItemIcon(339, 9, this.field_146295_m / 2 + off, 32, 32);
+		RenderHelper.drawItemIcon(339, 9, height / 2 + off, 32, 32);
 		off += wordSpacing;
-		this.drawCenteredString(Minecraft.getMinecraft().fontRenderer, "Messages", 25, this.field_146295_m / 2 + off, 0xFFFFFF);
+		this.drawCenteredString(Minecraft.getMinecraft().fontRenderer, "Messages", 25, height / 2 + off, 0xFFFFFF);
 		//Groups
 		off += iconSpacing;
-		RenderHelper.drawItemIcon(267, 9, this.field_146295_m / 2 + off, 32, 32);
+		RenderHelper.drawItemIcon(267, 9, height / 2 + off, 32, 32);
 		off += wordSpacing;
-		this.drawCenteredString(Minecraft.getMinecraft().fontRenderer, "Groups", 25, this.field_146295_m / 2 + off, 0xFFFFFF);
+		this.drawCenteredString(Minecraft.getMinecraft().fontRenderer, "Groups", 25, height / 2 + off, 0xFFFFFF);
 		//Settings
 		off += iconSpacing;
-		RenderHelper.drawItemIcon(257, 9, this.field_146295_m / 2 + off, 32, 32);
+		RenderHelper.drawItemIcon(257, 9, height / 2 + off, 32, 32);
 		off += wordSpacing;
-		this.drawCenteredString(Minecraft.getMinecraft().fontRenderer, "Settings", 25, this.field_146295_m / 2 + off, 0xFFFFFF);
+		this.drawCenteredString(Minecraft.getMinecraft().fontRenderer, "Settings", 25, height / 2 + off, 0xFFFFFF);
 		//Servers
 		off += iconSpacing;
-		RenderHelper.drawItemIcon(399, 9, this.field_146295_m / 2 + off, 32, 32);
+		RenderHelper.drawItemIcon(399, 9, height / 2 + off, 32, 32);
 		off += wordSpacing;
-		this.drawCenteredString(Minecraft.getMinecraft().fontRenderer, "Servers", 25, this.field_146295_m / 2 + off, 0xFFFFFF);
+		this.drawCenteredString(Minecraft.getMinecraft().fontRenderer, "Servers", 25, height / 2 + off, 0xFFFFFF);
 		//RenderHelper.drawBlockSide(44, 2, 100, 90, 128, 16, 3, 0.5f);
 		//RenderHelper.drawBlockSide(98, 0, 100, 106, 128, 128, 3, 3);
 		
 		// Draw screen
 		if (screen != null) {
-			RenderHelper.drawBlockSide(1, 0, 60, 20, field_146294_l - 80, field_146295_m - 40, (field_146294_l - 80) / 50, (field_146295_m - 40) / 50);
-			screen.drawScreen(this, 60, 20, field_146294_l - 80, field_146295_m - 40);
+			RenderHelper.drawBlockSide(1, 0, 60, 20, width - 80, height - 40, (width - 80) / 50, (height - 40) / 50);
+			screen.drawScreen(this, 60, 20, width - 80, height - 40);
 		} else {//if there is no screen open then draw the windows
 		
 			//put the most recently moved window on top
@@ -176,7 +176,7 @@ public class GuiOverlay extends GuiScreen {
 					y = mouseY;
 				}
 				for(GuiButton b : w.getButtonList()) {
-					b.func_146112_a(this.field_146297_k, x, y);
+					b.drawButton(mc, x, y);
 					GL11.glColor3f(1f, 1f, 1f);//fix color leak
 				}
 			}
@@ -184,14 +184,14 @@ public class GuiOverlay extends GuiScreen {
 		super.drawScreen(mouseX, mouseY, par3);
 	}
 	
-	public void func_146280_a(Minecraft mc, int width, int height) {
+	public void setWorldAndResolution(Minecraft mc, int width, int height) {
 		if(oldScreen != null) {
-			oldScreen.func_146280_a(mc, width, height);
+			oldScreen.setWorldAndResolution(mc, width, height);
 		}
-		super.func_146280_a(mc, width, height);
+		super.setWorldAndResolution(mc, width, height);
 	}
 	
-	protected void func_146284_a(GuiButton b) {
+	protected void actionPerformed(GuiButton b) {
 		for(Window w : windows) {
 			w.onButtonPress(b);
 		}

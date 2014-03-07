@@ -34,4 +34,8 @@ public class TinCanTelephony {
 			ClientRegistry.registerKeyBinding(overlayKey);
 		}
 	}
+
+	public TCTConnection getConnection() {
+		return connection;
+	}
 }

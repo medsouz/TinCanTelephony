@@ -1,5 +1,7 @@
 package net.medsouz.tct;
 
+import org.lwjgl.input.Keyboard;
+
 import net.medsouz.tct.api.FriendManager;
 import net.medsouz.tct.gui.GuiOverlay;
 import net.medsouz.tct.gui.RenderHelper;
@@ -43,8 +45,8 @@ public class TickHandler {
 	@SubscribeEvent
 	public void clientTick(ClientTickEvent event) {
 		if (GameSettings.isKeyDown(TinCanTelephony.overlayKey)) {
-			if (mc.currentScreen != null && !(mc.currentScreen instanceof GuiOverlay) || mc.currentScreen == null) {
-				mc.func_147108_a(new GuiOverlay(mc.currentScreen));
+			if ((mc.currentScreen != null && !(mc.currentScreen instanceof GuiOverlay) || mc.currentScreen == null) && !Keyboard.areRepeatEventsEnabled()) {
+				mc.displayGuiScreen(new GuiOverlay(mc.currentScreen));
 			}
 		}
 	}

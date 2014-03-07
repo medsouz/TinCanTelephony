@@ -116,7 +116,7 @@ public class RenderHelper {
 	 * @param height
 	 */
 	public static void drawItemIcon(int id, int x, int y, int width, int height) {
-		Item i = Item.func_150899_d(id);
+		Item i = Item.getItemById(id);
 		IIcon icon = i.getIcon(new ItemStack(i), 1);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(Minecraft.getMinecraft().getTextureManager().getResourceLocation(i.getSpriteNumber()));
 		drawQuad(x, y, width, height, icon.getMinU(), icon.getMaxU(), icon.getMinV(), icon.getMaxV());
@@ -143,8 +143,8 @@ public class RenderHelper {
 	}
 	
 	public static void drawBlockSide(int id, int side, int x, int y, int width, int height, float u, float v) {
-		Block b = Block.func_149729_e(id);
-		IIcon icon = b.func_149733_h(side);
+		Block b = Block.getBlockById(id);
+		IIcon icon = b.getBlockTextureFromSide(side);
 		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("textures/blocks/"+icon.getIconName()+".png"));
 		drawQuad(x, y, width, height, 0, u, 0, v);
 	}

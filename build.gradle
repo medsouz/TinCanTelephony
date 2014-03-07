@@ -22,7 +22,7 @@ group= "net.medsouz.tct" // http://maven.apache.org/guides/mini/guide-naming-con
 archivesBaseName = "tct"
 
 minecraft {
-    version = "1.7.2-10.12.0.998"
+    version = "1.7.2-10.12.0.1039"
 }
 processResources
 {

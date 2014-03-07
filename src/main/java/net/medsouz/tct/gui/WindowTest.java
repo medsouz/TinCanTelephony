@@ -22,10 +22,10 @@ public class WindowTest extends Window {
 	@Override
 	public void drawWindowContents() {
 		Minecraft.getMinecraft().fontRenderer.drawStringWithShadow("This window is for debugging", xPos + 1, yPos, 0xFFFFFF);
-		button1.field_146128_h = xPos + 1;
-		button1.field_146129_i = yPos + 15;
-		button2.field_146128_h = xPos + 89;
-		button2.field_146129_i = yPos + 15;
+		button1.xPosition = xPos + 1;
+		button1.yPosition = yPos + 15;
+		button2.xPosition = xPos + 89;
+		button2.yPosition = yPos + 15;
 	}
 
 	@Override
