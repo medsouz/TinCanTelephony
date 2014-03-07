@@ -71,13 +71,11 @@ public class GuiOverlay extends GuiScreen {
 					mouseXLast = mouseX;
 					mouseYLast = mouseY;
 				}
-			}
-			
-			for(GuiButton b : w.getButtonList()) {
-				if (b.func_146116_c(this.field_146297_k, mouseX, mouseY)){
-					b.func_146113_a(this.field_146297_k.func_147118_V());
-					w.onButtonPress(b);
-					return;//only allow one button to be pressed. Prevents clicking through.
+				for(GuiButton b : w.getButtonList()) {
+					if (b.func_146116_c(this.field_146297_k, mouseX, mouseY)){
+						b.func_146113_a(this.field_146297_k.func_147118_V());
+						w.onButtonPress(b);
+					}
 				}
 			}
 		}
