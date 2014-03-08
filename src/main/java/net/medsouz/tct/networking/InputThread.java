@@ -47,7 +47,9 @@ public class InputThread extends Thread{
 				String msg = (String)PacketManager.readPacket(packetId, data);
                 System.out.println("Disconnected with message: "+msg);
 				return true;
-			case 2://TODO: Packet2: 
+			case 3:
+				String username = (String)PacketManager.readPacket(packetId, data);
+				System.out.println("User " + username + " not found!");
 				break;
 			default:
 				System.out.println("Recieved unknown packet!");

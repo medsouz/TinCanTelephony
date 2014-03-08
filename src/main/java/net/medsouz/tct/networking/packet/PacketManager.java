@@ -22,6 +22,8 @@ public class PacketManager {
 	public static void registerPackets() {
 		packets.add(Packet0PlayerLogin.class);
 		packets.add(Packet1Disconnect.class);
+		packets.add(Packet2AddFriend.class);
+		packets.add(Packet3PlayerNotFound.class);
 	}
 	
 	/**
