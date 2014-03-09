@@ -100,7 +100,7 @@ public class GuiOverlay extends GuiScreen {
 		//Icons
 		//Profile
 		int off = -105;
-		RenderHelper.drawImage(RenderHelper.downloadImage("https://minotar.net/avatar/"+username+"/32.png"), 9, height / 2 + off, 32, 32);
+		RenderHelper.drawImage(RenderHelper.downloadImage("https://minotar.net/helm/"+username+"/32.png"), 9, height / 2 + off, 32, 32);
 		off += wordSpacing;
 		this.drawCenteredString(Minecraft.getMinecraft().fontRenderer, "Profile", 25, height / 2 + off, 0xFFFFFF);
 		//Friends
