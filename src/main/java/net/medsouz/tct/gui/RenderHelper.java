@@ -2,6 +2,8 @@ package net.medsouz.tct.gui;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.ThreadDownloadImageData;
 import net.minecraft.client.renderer.texture.ITextureObject;
@@ -157,5 +159,32 @@ public class RenderHelper {
 		tessellator.addVertexWithUV(x + width, y, 0, maxU, minV);
 		tessellator.addVertexWithUV(x, y, 0, minU, minV);
 		tessellator.draw();
+	}
+	
+	/* TODO: Improve this method
+	 * What is wrong with it:
+	 * It is full of magic numbers
+	 * It scales strangely at times
+	 * It renders over objects drawn after it
+	 */
+	public static void drawPlayer(String user, int x, int y, float scale){
+		String skinurl = "http://s3.amazonaws.com/MinecraftSkins/"+user+".png";
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		ModelBiped biped = new ModelBiped();
+		biped.bipedCloak.isHidden = true;
+		biped.bipedEars.isHidden = true;
+		GL11.glPushMatrix();
+			GL11.glTranslatef(x, y - (scale * 0.43f), 10);//has to have a z value > 10 or else the model gets half cut off
+			GL11.glScalef(0.06f * scale, 0.06f * scale, 1);
+			GL11.glRotatef(-20, 1, 0, 0);
+			GL11.glRotatef(205, 0, 1, 0);
+			GL11.glDisable(GL11.GL_CULL_FACE);
+			Minecraft.getMinecraft().renderEngine.bindTexture(downloadImage(skinurl));
+			for (int i = 0; i < biped.boxList.size(); i++) {
+				((ModelRenderer) (biped.boxList.get(i))).render(1);
+			}
+			GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glPopMatrix();
+		//RenderHelper.drawItemIcon(368, x - 16, y - 16, 32, 32);
 	}
 }
