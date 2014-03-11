@@ -59,12 +59,29 @@ public class GuiOverlay extends GuiScreen {
 		return window;
 	}
 	
+	void sidebarButtonPressed(int id) {
+		switch (id) {
+		case 0://Profile
+			break;
+		case 1://Friends
+			break;
+		case 2://Messages
+			break;
+		case 3://Groups
+			break;
+		case 4://Settings
+			break;
+		case 5://Servers
+			break;
+		}
+	}
+	
 	protected void mouseClicked(int mouseX, int mouseY, int par3) {
 		super.mouseClicked(mouseX, mouseY, par3);
-		//for(int x = windows.size() - 1; x >= 0; x--) {
+		Window top = getTopWindow(mouseX, mouseY);
 		for(int x = 0; x < windows.size(); x++){
 			Window w = windows.get(x);
-			if(getTopWindow(mouseX, mouseY) == w){
+			if(top == w){
 				resetWindow = w;
 				if(mouseX > w.getX() && mouseX < w.getX() + w.getWidth() && mouseY > w.getY() - 16 && mouseY < w.getY()){
 					draggedWindow = w;
@@ -76,6 +93,18 @@ public class GuiOverlay extends GuiScreen {
 						b.func_146113_a(mc.getSoundHandler());
 						w.onButtonPress(b);
 					}
+				}
+			}
+		}
+		
+		//sidebar buttons
+		if(top == null) {//Windows go over the sidebar and should block clicks
+			int off = -105;
+			for(int x = 0; x < 6; x++){
+				off += (iconSpacing + wordSpacing);
+				if(mouseX < 50 && mouseY > height / 2 + (off - (iconSpacing + wordSpacing)) && mouseY < height / 2 + off) {
+					sidebarButtonPressed(x);
+					break;//There is no reason to continue to checking
 				}
 			}
 		}
@@ -134,7 +163,10 @@ public class GuiOverlay extends GuiScreen {
 		// Draw screen
 		if (screen != null) {
 			RenderHelper.drawBlockSide(1, 0, 60, 20, width - 80, height - 40, (width - 80) / 50, (height - 40) / 50);
-			screen.drawScreen(this, 60, 20, width - 80, height - 40);
+			screen.drawScreen(60, 20, width - 80, height - 40);
+			for(GuiButton b : screen.getButtonList()) {
+				b.drawButton(mc, mouseX, mouseY);
+			}
 		} else {//if there is no screen open then draw the windows
 		
 			//put the most recently moved window on top
