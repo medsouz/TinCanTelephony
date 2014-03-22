@@ -2,6 +2,9 @@ package net.medsouz.tct.gui;
 
 import java.util.ArrayList;
 
+import net.medsouz.tct.gui.screen.Screen;
+import net.medsouz.tct.gui.window.Window;
+import net.medsouz.tct.gui.window.WindowTest;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;

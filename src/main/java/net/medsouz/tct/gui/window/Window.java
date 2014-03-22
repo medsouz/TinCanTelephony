@@ -1,7 +1,8 @@
-package net.medsouz.tct.gui;
+package net.medsouz.tct.gui.window;
 
 import java.util.ArrayList;
 
+import net.medsouz.tct.gui.GuiOverlay;
 import net.minecraft.client.gui.GuiButton;
 
 /**

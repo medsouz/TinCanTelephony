@@ -1,5 +1,6 @@
-package net.medsouz.tct.gui;
+package net.medsouz.tct.gui.window;
 
+import net.medsouz.tct.gui.GuiOverlay;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 
