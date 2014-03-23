@@ -1,4 +1,4 @@
-TinCanTelephony
+TinCanTelephony [![Build Status](https://travis-ci.org/medsouz/TinCanTelephony.svg?branch=master)](https://travis-ci.org/medsouz/TinCanTelephony)
 ===============
 *The leading product in metal container based communication.*
 
