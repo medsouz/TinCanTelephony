@@ -63,4 +63,8 @@ public class WindowProfile extends Window {
 		
 	}
 
+	public String getUsername() {
+		return username;
+	}
+
 }

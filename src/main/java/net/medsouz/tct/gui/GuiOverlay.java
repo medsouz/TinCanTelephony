@@ -2,10 +2,8 @@ package net.medsouz.tct.gui;
 
 import java.util.ArrayList;
 
-import net.medsouz.tct.gui.screen.Screen;
 import net.medsouz.tct.gui.window.Window;
 import net.medsouz.tct.gui.window.WindowProfile;
-import net.medsouz.tct.gui.window.WindowTest;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -28,7 +26,6 @@ public class GuiOverlay extends GuiScreen {
 	protected GuiScreen oldScreen;
 	private Window resetWindow = null;
 	private ArrayList<Window> windows = new ArrayList<Window>();
-	private Screen screen;
 
 	public GuiOverlay(GuiScreen par1GuiScreen) {
 		this.oldScreen = par1GuiScreen;
@@ -39,8 +36,6 @@ public class GuiOverlay extends GuiScreen {
 	 */
 	public void initGui() {
 		this.buttonList.clear();
-		windows.add(new WindowTest(this, "DEBUG_WINDOW 1 - Please Ignore", 100,150,170,50));
-		windows.add(new WindowTest(this, "DEBUG_WINDOW 2 - Please Ignore", 100,50,170,50));
 	}
 
 	/**
@@ -66,6 +61,14 @@ public class GuiOverlay extends GuiScreen {
 	void sidebarButtonPressed(int id) {
 		switch (id) {
 		case 0://Profile
+			for(Window w : windows) { //Don't open the window if it already exists
+				if(w instanceof WindowProfile) {
+					if(((WindowProfile) w).getUsername() == username) {
+						return;
+					}
+				}
+			}
+			windows.add(new WindowProfile(this, (width / 2) - (175 / 2), (height / 2) - (115 / 2), 175, 115, username));
 			break;
 		case 1://Friends
 			break;
@@ -161,60 +164,42 @@ public class GuiOverlay extends GuiScreen {
 		RenderHelper.drawItemIcon(399, 9, height / 2 + off, 32, 32);
 		off += wordSpacing;
 		this.drawCenteredString(Minecraft.getMinecraft().fontRenderer, "Servers", 25, height / 2 + off, 0xFFFFFF);
-		//RenderHelper.drawBlockSide(44, 2, 100, 90, 128, 16, 3, 0.5f);
-		//RenderHelper.drawBlockSide(98, 0, 100, 106, 128, 128, 3, 3);
 		
-		// Draw screen
-		if (screen != null) {
-			RenderHelper.drawBlockSide(1, 0, 60, 20, width - 80, height - 40, (width - 80) / 50, (height - 40) / 50);
-			screen.drawScreen(60, 20, width - 80, height - 40);
-			for(GuiButton b : screen.getButtonList()) {
-				b.drawButton(mc, mouseX, mouseY);
-			}
-		} else {//if there is no screen open then draw the windows
+		//put the most recently moved window on top
+		if(resetWindow != null){
+			windows.remove(resetWindow);
+			windows.add(windows.size(), resetWindow);
+			resetWindow = null;
+		}
 		
-			//put the most recently moved window on top
-			if(resetWindow != null){
-				windows.remove(resetWindow);
-				windows.add(windows.size(), resetWindow);
-				resetWindow = null;
+		for(int x = windows.size() - 1; x >= 0; x--){//drag priority is the opposite of draw priority
+			Window w = windows.get(x);
+			if(Mouse.isButtonDown(0)) {
+				if (draggedWindow == w) {
+					int diffX = mouseX - mouseXLast;
+					int diffY = mouseY - mouseYLast;
+					w.setPosition(w.getX() + diffX, w.getY() + diffY);
+					mouseXLast = mouseX;
+					mouseYLast = mouseY;
+				}
+			} else {
+				draggedWindow = null;
 			}
-			
-			for(int x = windows.size() - 1; x >= 0; x--){//drag priority is the opposite of draw priority
-				Window w = windows.get(x);
-				if(Mouse.isButtonDown(0)) {
-					/*if(draggedWindow == null) {
-						if(mouseX > w.getX() && mouseX < w.getX() + w.getWidth() && mouseY > w.getY() - 16 && mouseY < w.getY()){
-							draggedWindow = w;
-							mouseXLast = mouseX;
-							mouseYLast = mouseY;
-						}
-					}else*/ if (draggedWindow == w) {
-						int diffX = mouseX - mouseXLast;
-						int diffY = mouseY - mouseYLast;
-						w.setPosition(w.getX() + diffX, w.getY() + diffY);
-						mouseXLast = mouseX;
-						mouseYLast = mouseY;
-					}
-				} else {
-					draggedWindow = null;
-				}
+		}
+		
+		for(Window w : windows) {
+			RenderHelper.drawBlockSide(44, 2, w.getX(), w.getY() - 16, w.getWidth(), 16, w.getWidth() / 50f, 0.5f);
+			RenderHelper.drawBlockSide(5, 0, w.getX(), w.getY(), w.getWidth(), w.getHeight(), w.getWidth() / 50f, w.getHeight() / 50f);
+			this.drawCenteredString(Minecraft.getMinecraft().fontRenderer, w.getTitle(), w.getX() + w.getWidth() / 2, w.getY() - 12, 0xFFFFFF);
+			w.drawWindowContents();
+			int x = -1, y = -1;
+			if(getTopWindow(mouseX, mouseY) == w) {//only give the real mouse position to top buttons, this prevents the back window from highlighting buttons.
+				x = mouseX;
+				y = mouseY;
 			}
-			
-			for(Window w : windows) {
-				RenderHelper.drawBlockSide(44, 2, w.getX(), w.getY() - 16, w.getWidth(), 16, w.getWidth() / 50f, 0.5f);
-				RenderHelper.drawBlockSide(5, 0, w.getX(), w.getY(), w.getWidth(), w.getHeight(), w.getWidth() / 50f, w.getHeight() / 50f);
-				this.drawCenteredString(Minecraft.getMinecraft().fontRenderer, w.getTitle(), w.getX() + w.getWidth() / 2, w.getY() - 12, 0xFFFFFF);
-				w.drawWindowContents();
-				int x = -1, y = -1;
-				if(getTopWindow(mouseX, mouseY) == w) {//only give the real mouse position to top buttons, this prevents the back window from highlighting buttons.
-					x = mouseX;
-					y = mouseY;
-				}
-				for(GuiButton b : w.getButtonList()) {
-					b.drawButton(mc, x, y);
-					GL11.glColor3f(1f, 1f, 1f);//fix color leak
-				}
+			for(GuiButton b : w.getButtonList()) {
+				b.drawButton(mc, x, y);
+				GL11.glColor3f(1f, 1f, 1f);//fix color leak
 			}
 		}
 		super.drawScreen(mouseX, mouseY, par3);
