@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import net.medsouz.tct.gui.screen.Screen;
 import net.medsouz.tct.gui.window.Window;
+import net.medsouz.tct.gui.window.WindowProfile;
 import net.medsouz.tct.gui.window.WindowTest;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -202,7 +203,7 @@ public class GuiOverlay extends GuiScreen {
 			
 			for(Window w : windows) {
 				RenderHelper.drawBlockSide(44, 2, w.getX(), w.getY() - 16, w.getWidth(), 16, w.getWidth() / 50f, 0.5f);
-				RenderHelper.drawBlockSide(98, 0, w.getX(), w.getY(), w.getWidth(), w.getHeight(), w.getWidth() / 50f, w.getHeight() / 50f);
+				RenderHelper.drawBlockSide(5, 0, w.getX(), w.getY(), w.getWidth(), w.getHeight(), w.getWidth() / 50f, w.getHeight() / 50f);
 				this.drawCenteredString(Minecraft.getMinecraft().fontRenderer, w.getTitle(), w.getX() + w.getWidth() / 2, w.getY() - 12, 0xFFFFFF);
 				w.drawWindowContents();
 				int x = -1, y = -1;
