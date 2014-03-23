@@ -2,6 +2,7 @@ package net.medsouz.tct.gui;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.Tessellator;
@@ -18,6 +19,10 @@ import org.lwjgl.opengl.GL11;
 /**
  * @author medsouz
  * 
+ */
+/**
+ * @author medsouz
+ *
  */
 public class RenderHelper {
 
@@ -98,11 +103,20 @@ public class RenderHelper {
 	 * @return ResourceLocation containing the downloaded image
 	 */
 	public static ResourceLocation downloadImage(String URL) {
+		return downloadImage(URL, null);
+	}
+	
+	/**
+	 * @param URL Image URL
+	 * @param fallback Image to return if the download fails
+	 * @return ResourceLocation containing the downloaded image
+	 */
+	public static ResourceLocation downloadImage(String URL, ResourceLocation fallback) {
 		ResourceLocation r = new ResourceLocation(URL);
 		TextureManager texturemanager = Minecraft.getMinecraft().getTextureManager();
 		Object object = texturemanager.getTexture(r);
 		if (object == null) {
-			object = new ThreadDownloadImageData(URL, null, null);
+			object = new ThreadDownloadImageData(URL, fallback, null);
 			texturemanager.loadTexture(r, (ITextureObject) object);
 		}
 		return r;
@@ -179,7 +193,7 @@ public class RenderHelper {
 			GL11.glRotatef(-20, 1, 0, 0);
 			GL11.glRotatef(205, 0, 1, 0);
 			GL11.glDisable(GL11.GL_CULL_FACE);
-			Minecraft.getMinecraft().renderEngine.bindTexture(downloadImage(skinurl));
+			Minecraft.getMinecraft().renderEngine.bindTexture(downloadImage(skinurl, AbstractClientPlayer.locationStevePng));
 			for (int i = 0; i < biped.boxList.size(); i++) {
 				((ModelRenderer) (biped.boxList.get(i))).render(1);
 			}
