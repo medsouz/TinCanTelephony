@@ -86,6 +86,11 @@ public class GuiOverlay extends GuiScreen {
 	protected void mouseClicked(int mouseX, int mouseY, int par3) {
 		super.mouseClicked(mouseX, mouseY, par3);
 		Window top = getTopWindow(mouseX, mouseY);
+		if(top != null) {
+			if(mouseX > top.getX() + top.getWidth() - 14 && mouseX < top.getX() + top.getWidth() - 2 && mouseY < top.getY() - 2 && mouseY > top.getY() - 14){
+				windows.remove(top);
+			}
+		}
 		for(int x = 0; x < windows.size(); x++){
 			Window w = windows.get(x);
 			if(top == w){
@@ -188,8 +193,9 @@ public class GuiOverlay extends GuiScreen {
 		}
 		
 		for(Window w : windows) {
-			RenderHelper.drawBlockSide(44, 2, w.getX(), w.getY() - 16, w.getWidth(), 16, w.getWidth() / 50f, 0.5f);
-			RenderHelper.drawBlockSide(5, 0, w.getX(), w.getY(), w.getWidth(), w.getHeight(), w.getWidth() / 50f, w.getHeight() / 50f);
+			RenderHelper.drawBlockSide(44, 2, w.getX(), w.getY() - 16, w.getWidth(), 16, w.getWidth() / 50f, 0.5f);//background
+			RenderHelper.drawBlockSide(5, 0, w.getX(), w.getY(), w.getWidth(), w.getHeight(), w.getWidth() / 50f, w.getHeight() / 50f);//title bar
+			RenderHelper.drawBlockSide(46, 2, w.getX() + w.getWidth() - 14, w.getY() - 14, 12, 12);//close button
 			this.drawCenteredString(Minecraft.getMinecraft().fontRenderer, w.getTitle(), w.getX() + w.getWidth() / 2, w.getY() - 12, 0xFFFFFF);
 			w.drawWindowContents();
 			int x = -1, y = -1;
