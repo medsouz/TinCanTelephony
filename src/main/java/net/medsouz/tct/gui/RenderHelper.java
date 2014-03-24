@@ -175,12 +175,6 @@ public class RenderHelper {
 		tessellator.draw();
 	}
 	
-	/* TODO: Improve this method
-	 * What is wrong with it:
-	 * It is full of magic numbers
-	 * It scales strangely at times
-	 * It renders over objects drawn after it
-	 */
 	public static void drawPlayer(String user, int x, int y, float scale){
 		String skinurl = "http://s3.amazonaws.com/MinecraftSkins/"+user+".png";
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -193,12 +187,13 @@ public class RenderHelper {
 			GL11.glRotatef(-20, 1, 0, 0);
 			GL11.glRotatef(205, 0, 1, 0);
 			GL11.glDisable(GL11.GL_CULL_FACE);
+			GL11.glEnable(GL11.GL_DEPTH_TEST);
 			Minecraft.getMinecraft().renderEngine.bindTexture(downloadImage(skinurl, AbstractClientPlayer.locationStevePng));
 			for (int i = 0; i < biped.boxList.size(); i++) {
 				((ModelRenderer) (biped.boxList.get(i))).render(1);
 			}
 			GL11.glEnable(GL11.GL_CULL_FACE);
+			GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL11.glPopMatrix();
-		//RenderHelper.drawItemIcon(368, x - 16, y - 16, 32, 32);
 	}
 }
