@@ -5,6 +5,12 @@ public class Friend {
 	private String status;
 	private boolean isOnline;
 
+	public Friend(String name, String stat, boolean online) {
+		username = name;
+		status = stat;
+		isOnline = online;
+	}
+	
 	/**
 	 * Gets the username of this friend.
 	 * @return Friend's username.

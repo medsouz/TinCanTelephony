@@ -24,6 +24,7 @@ public class PacketManager {
 		packets.add(Packet1Disconnect.class);
 		packets.add(Packet2AddFriend.class);
 		packets.add(Packet3PlayerNotFound.class);
+		packets.add(Packet4ListFriends.class);
 	}
 	
 	/**

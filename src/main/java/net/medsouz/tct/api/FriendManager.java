@@ -35,4 +35,8 @@ public class FriendManager {
 	public static int getOnlineFriendsCount(){
 		return numOnline;	
 	}
+
+	public static void setFriends(List<Friend> friendList) {
+		friends = friendList;
+	}
 }

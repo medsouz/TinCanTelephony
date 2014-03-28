@@ -2,7 +2,10 @@ package net.medsouz.tct.networking;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.List;
 
+import net.medsouz.tct.api.FriendManager;
+import net.medsouz.tct.api.objects.Friend;
 import net.medsouz.tct.networking.packet.PacketManager;
 
 public class InputThread extends Thread{
@@ -51,8 +54,11 @@ public class InputThread extends Thread{
 				String username = (String)PacketManager.readPacket(packetId, data);
 				System.out.println("User " + username + " not found!");
 				break;
+			case 4:
+				FriendManager.setFriends((List<Friend>) PacketManager.readPacket(packetId, data));
+				break;
 			default:
-				System.out.println("Recieved unknown packet!");
+				System.out.println("Recieved invalid packet! (ID == " + packetId + ")");
 				return true;
 		}
 		return false;
