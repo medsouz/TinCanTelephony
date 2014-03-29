@@ -31,7 +31,7 @@ public class TCTConnection {
 			PacketManager.sendPacket(login, out);
 			out.flush();
 			Thread.sleep(5000);//Give the server some time to process TODO: Make the server tell the client when auth is complete
-			FriendManager.updateFriends(out);
+			FriendManager.updateFriends();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
