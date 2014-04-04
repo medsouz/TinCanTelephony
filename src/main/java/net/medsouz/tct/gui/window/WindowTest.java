@@ -44,4 +44,9 @@ public class WindowTest extends Window {
 		}
 	}
 
+	@Override
+	public void keyTyped(char c, int id) {
+		
+	}
+
 }

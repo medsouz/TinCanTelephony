@@ -30,6 +30,8 @@ public abstract class Window {
 	
 	public abstract void onButtonPress(GuiButton button);
 	
+	public abstract void keyTyped(char c, int id);
+	
 	public void setPosition(int x, int y) {
 		xPos = x;
 		yPos = y;
@@ -66,5 +68,14 @@ public abstract class Window {
 	
 	public ArrayList<GuiButton> getButtonList() {
 		return buttonList;
+	}
+	
+	public boolean isTopWindow() {
+		if(overlay.getWindows().size() > 0) {
+			return overlay.getWindows().get(0).equals(this);
+		} else {
+			//This should never happen...
+			return false;
+		}
 	}
 }
