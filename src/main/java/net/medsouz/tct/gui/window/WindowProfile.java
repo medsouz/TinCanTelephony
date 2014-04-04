@@ -67,4 +67,9 @@ public class WindowProfile extends Window {
 		return username;
 	}
 
+	@Override
+	public void keyTyped(char c, int id) {
+		
+	}
+
 }

@@ -46,6 +46,9 @@ public class GuiOverlay extends GuiScreen {
 		if(par2 == Keyboard.KEY_ESCAPE) {
 			Minecraft.getMinecraft().currentScreen = oldScreen;
 		}
+		if(windows.size() > 0) {
+			windows.get(0).keyTyped(par1, par2);
+		}
 	}
 	
 	Window getTopWindow(int mouseX, int mouseY){
@@ -222,5 +225,9 @@ public class GuiOverlay extends GuiScreen {
 		for(Window w : windows) {
 			w.onButtonPress(b);
 		}
+	}
+	
+	public ArrayList<Window> getWindows() {
+		return windows;
 	}
 }
