@@ -30,7 +30,7 @@ public class GuiOverlay extends GuiScreen {
 	String username = Minecraft.getMinecraft().getSession().getUsername();
 	protected GuiScreen oldScreen;
 	private Window resetWindow = null;
-	private ArrayList<Window> windows = new ArrayList<Window>();
+	public ArrayList<Window> windows = new ArrayList<Window>();
 	public GuiOverlay(GuiScreen par1GuiScreen) {
 		this.oldScreen = par1GuiScreen;
 		
@@ -79,18 +79,15 @@ public class GuiOverlay extends GuiScreen {
 			windows.add(new WindowProfile(this, (width / 2) - (175 / 2), (height / 2) - (115 / 2), 175, 115, username));
 			break;
 		case 1://Friends
-			switch (id) {
-			case 0://Profile
 				for(Window w : windows) { //Don't open the window if it already exists
 					if(w instanceof WindowFriendList) {
-						if(((WindowFriendList) w).getTitle() == "Friends") {
-							break;
+						if(w.getTitle() == "Friends") {
+							return;
 						}
 					}
 				}
-			}
-				windows.add(new WindowFriendList(this, "Friends", (width / 2) - (175 / 2), (height / 2) - (115 / 2), 175, 115));
 			
+				windows.add(new WindowFriendList(this, "Friends", (width / 2) - (175 / 2), (height / 2) - (115 / 2), 175, 115));			
 			break;
 		case 2://Messages
 			break;

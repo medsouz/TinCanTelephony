@@ -1,10 +1,11 @@
 package net.medsouz.tct.gui.window;
 
-import cpw.mods.fml.common.Loader;
+import net.medsouz.tct.api.FriendManager;
 import net.medsouz.tct.gui.GuiOverlay;
 import net.medsouz.tct.gui.RenderHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import cpw.mods.fml.common.Loader;
 
 /**
  * @author medsouz
@@ -60,7 +61,9 @@ public class WindowProfile extends Window {
 
 	@Override
 	public void onButtonPress(GuiButton button) {
-		
+		if(button.equals(addFriend)){
+			FriendManager.addFriend(username);
+		}
 	}
 
 	public String getUsername() {
