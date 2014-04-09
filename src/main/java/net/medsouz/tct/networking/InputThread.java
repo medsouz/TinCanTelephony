@@ -44,6 +44,7 @@ public class InputThread extends Thread{
 	 * @param data
 	 * @return Returns true if the client should disconnect.
 	 */
+	@SuppressWarnings("unchecked")
 	private boolean parsePacket(int packetId, byte[] data) {
 		switch(packetId){
 			case 1:

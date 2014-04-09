@@ -4,7 +4,6 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
 
-import net.medsouz.tct.api.FriendManager;
 import net.medsouz.tct.networking.packet.Packet0PlayerLogin;
 import net.medsouz.tct.networking.packet.PacketManager;
 import net.minecraft.client.Minecraft;
@@ -30,8 +29,6 @@ public class TCTConnection {
 			login.sessionID = Minecraft.getMinecraft().getSession().getSessionID();
 			PacketManager.sendPacket(login, out);
 			out.flush();
-			Thread.sleep(5000);//Give the server some time to process TODO: Make the server tell the client when auth is complete
-			FriendManager.updateFriends();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
