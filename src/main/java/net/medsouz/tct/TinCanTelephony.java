@@ -1,10 +1,11 @@
 package net.medsouz.tct;
 
-import org.lwjgl.input.Keyboard;
-
 import net.medsouz.tct.networking.TCTConnection;
 import net.medsouz.tct.networking.packet.PacketManager;
 import net.minecraft.client.settings.KeyBinding;
+
+import org.lwjgl.input.Keyboard;
+
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
@@ -24,7 +25,7 @@ public class TinCanTelephony {
 	
 	public static KeyBinding overlayKey = new KeyBinding("Open Overlay", Keyboard.KEY_P, "TinCanTelephony");
 	
-	@Instance
+	@Instance("TCT")
 	public static TinCanTelephony instance;
 	
 	private TCTConnection connection;
