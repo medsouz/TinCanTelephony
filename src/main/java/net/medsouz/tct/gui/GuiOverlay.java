@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import net.medsouz.tct.gui.window.Window;
 import net.medsouz.tct.gui.window.WindowProfile;
+import net.medsouz.tct.gui.window.WindowSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -80,6 +81,12 @@ public class GuiOverlay extends GuiScreen {
 		case 3://Groups
 			break;
 		case 4://Settings
+			for(Window w : windows) {
+				if(w instanceof WindowSettings) {
+				    return;
+				}
+			}
+			windows.add(new WindowSettings(this, username, (width / 2) - (175 / 2), (height / 2) - (115 / 2), 175, 115));
 			break;
 		case 5://Servers
 			break;
