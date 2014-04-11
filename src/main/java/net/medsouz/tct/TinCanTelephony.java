@@ -2,6 +2,7 @@ package net.medsouz.tct;
 
 import net.medsouz.tct.networking.TCTConnection;
 import net.medsouz.tct.networking.packet.PacketManager;
+import net.medsouz.tct.theme.Theme;
 import net.minecraft.client.settings.KeyBinding;
 
 import org.lwjgl.input.Keyboard;
@@ -18,12 +19,12 @@ import cpw.mods.fml.relauncher.Side;
  * @author medsouz
  *
  */
-@Mod(modid = TinCanTelephony.MODID, version = TinCanTelephony.VERSION)
+@Mod(modid = Properties.MODID, version = Properties.VERSION)
 public class TinCanTelephony {
-	public static final String MODID = "TCT";
-	public static final String VERSION = "0.1";
 	
+	public static Properties properties;
 	public static KeyBinding overlayKey = new KeyBinding("Open Overlay", Keyboard.KEY_P, "TinCanTelephony");
+	public static Theme curTheme = properties.THEME_CLASSIC;
 	
 	@Instance("TCT")
 	public static TinCanTelephony instance;
@@ -42,5 +43,10 @@ public class TinCanTelephony {
 
 	public TCTConnection getConnection() {
 		return connection;
+	}
+	
+	public void setTheme(Theme newTheme)
+	{
+		this.curTheme = newTheme;
 	}
 }

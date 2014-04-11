@@ -2,12 +2,15 @@ package net.medsouz.tct.gui;
 
 import java.util.ArrayList;
 
+import net.medsouz.tct.TinCanTelephony;
 import net.medsouz.tct.gui.window.Window;
 import net.medsouz.tct.gui.window.WindowProfile;
 import net.medsouz.tct.gui.window.WindowSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.Tessellator;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -86,7 +89,7 @@ public class GuiOverlay extends GuiScreen {
 				    return;
 				}
 			}
-			windows.add(new WindowSettings(this, username, (width / 2) - (175 / 2), (height / 2) - (115 / 2), 175, 115));
+			windows.add(new WindowSettings(this, username, (width / 2) - (175 / 2), (height / 2) - (115 / 2), 175, 150));
 			break;
 		case 5://Servers
 			break;
@@ -144,10 +147,11 @@ public class GuiOverlay extends GuiScreen {
 		if(oldScreen != null) {
 			oldScreen.drawScreen(0, 0, par3);
 		}
-		this.drawGradientRect(0, 0, width, height, -0x3FEFEFF0, -0x2FEFEFF0);
-		//Background
-		RenderHelper.drawBlockSide(2, 2, 0, height / 2 - 115, 50, 50, 1, 1);
-		RenderHelper.drawBlockSide(2, 0, 0, height / 2 - 65, 50, 180, 1, 150 / 50);
+		this.drawGradientRect(0, 0, width, height, -0x0FEFEFF0, -0x7FEFEFF0);
+		
+		//Sidebar Background
+		TinCanTelephony.curTheme.drawSidebar(this);
+		
 		//Icons
 		//Profile
 		int off = -105;
@@ -203,9 +207,7 @@ public class GuiOverlay extends GuiScreen {
 		}
 		
 		for(Window w : windows) {
-			RenderHelper.drawBlockSide(44, 2, w.getX(), w.getY() - 16, w.getWidth(), 16, w.getWidth() / 50f, 0.5f);//background
-			RenderHelper.drawBlockSide(5, 0, w.getX(), w.getY(), w.getWidth(), w.getHeight(), w.getWidth() / 50f, w.getHeight() / 50f);//title bar
-			RenderHelper.drawBlockSide(46, 2, w.getX() + w.getWidth() - 14, w.getY() - 14, 12, 12);//close button
+			TinCanTelephony.curTheme.drawWindow(w);
 			this.drawCenteredString(Minecraft.getMinecraft().fontRenderer, w.getTitle(), w.getX() + w.getWidth() / 2, w.getY() - 12, 0xFFFFFF);
 			w.drawWindowContents();
 			int x = -1, y = -1;
@@ -237,4 +239,39 @@ public class GuiOverlay extends GuiScreen {
 	public ArrayList<Window> getWindows() {
 		return windows;
 	}
+	
+	/**
+	 * Needed in order for drawGradientRect to be accessed from sub classes
+	 */
+	@Override
+	public void drawGradientRect(int par1, int par2, int par3, int par4, int par5, int par6)
+    {
+        float f = (float)(par5 >> 24 & 255) / 255.0F;
+        float f1 = (float)(par5 >> 16 & 255) / 255.0F;
+        float f2 = (float)(par5 >> 8 & 255) / 255.0F;
+        float f3 = (float)(par5 & 255) / 255.0F;
+        float f4 = (float)(par6 >> 24 & 255) / 255.0F;
+        float f5 = (float)(par6 >> 16 & 255) / 255.0F;
+        float f6 = (float)(par6 >> 8 & 255) / 255.0F;
+        float f7 = (float)(par6 & 255) / 255.0F;
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_ALPHA_TEST);
+        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+        GL11.glShadeModel(GL11.GL_SMOOTH);
+        Tessellator tessellator = Tessellator.instance;
+        tessellator.startDrawingQuads();
+        tessellator.setColorRGBA_F(f1, f2, f3, f);
+        tessellator.addVertex((double)par3, (double)par2, (double)this.zLevel);
+        tessellator.addVertex((double)par1, (double)par2, (double)this.zLevel);
+        tessellator.setColorRGBA_F(f5, f6, f7, f4);
+        tessellator.addVertex((double)par1, (double)par4, (double)this.zLevel);
+        tessellator.addVertex((double)par3, (double)par4, (double)this.zLevel);
+        tessellator.draw();
+        GL11.glShadeModel(GL11.GL_FLAT);
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glEnable(GL11.GL_ALPHA_TEST);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+    }
+
 }
