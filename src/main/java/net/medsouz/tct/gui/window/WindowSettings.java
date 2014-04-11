@@ -1,5 +1,6 @@
 package net.medsouz.tct.gui.window;
 
+import net.medsouz.tct.TinCanTelephony;
 import net.medsouz.tct.gui.GuiOverlay;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -17,7 +18,9 @@ public class WindowSettings extends Window {
 			button3 = new GuiButton(2, 0, 0, 80, 20, "Public"),
 			button4 = new GuiButton(3, 0, 0, 80, 20, "Private"),
 			button5 = new GuiButton(4, 0, 0, 80, 20, "Public"),
-			button6 = new GuiButton(5, 0, 0, 80, 20, "Private");
+			button6 = new GuiButton(5, 0, 0, 80, 20, "Private"),
+			button7 = new GuiButton(6, 0, 0, 80, 20, "Classic"),
+			button8 = new GuiButton(7, 0, 0, 80, 20, "Clear");
 
 	public WindowSettings(GuiOverlay g, String t, int x, int y, int w, int h) {
 		super(g, "Settings", x, y, w, h);
@@ -27,10 +30,13 @@ public class WindowSettings extends Window {
 		buttonList.add(button4);
 		buttonList.add(button5);
 		buttonList.add(button6);
-		
+		buttonList.add(button7);
+		buttonList.add(button8);
+
 		button1.enabled = false;
 		button3.enabled = false;
 		button5.enabled = false;
+		button7.enabled = false;
 	}
 
 	@Override
@@ -52,10 +58,29 @@ public class WindowSettings extends Window {
 
 		button6.xPosition = xPos + 89;
 		button6.yPosition = yPos + 90;
+		
+		button7.xPosition = xPos + 5;
+		button7.yPosition = yPos + 125;
+
+		button8.xPosition = xPos + 89;
+		button8.yPosition = yPos + 125;
 
 		Minecraft.getMinecraft().fontRenderer.drawStringWithShadow("Private Messages", xPos + 6, yPos + 8, 0xFFFFFF);
 		Minecraft.getMinecraft().fontRenderer.drawStringWithShadow("Current Server", xPos + 6, yPos + 43, 0xFFFFFF);
 		Minecraft.getMinecraft().fontRenderer.drawStringWithShadow("Server Invites", xPos + 6, yPos + 78, 0xFFFFFF);
+		Minecraft.getMinecraft().fontRenderer.drawStringWithShadow("Theme", xPos + 6, yPos + 113, 0xFFFFFF);
+		
+		if (TinCanTelephony.curTheme == TinCanTelephony.properties.THEME_CLASSIC)
+		{
+			button7.enabled = false;
+			button8.enabled = true;
+		}
+		
+		if (TinCanTelephony.curTheme == TinCanTelephony.properties.THEME_CLEAR)
+		{
+			button7.enabled = true;
+			button8.enabled = false;
+		}
 	}
 
 	@Override
@@ -94,6 +119,17 @@ public class WindowSettings extends Window {
 			System.out.println("Only friends can invite me to a server!");
 			button5.enabled = true;
 			button6.enabled = false;
+		}
+		if (button.id == 6) {
+			button7.enabled = false;
+			button8.enabled = true;
+			
+			TinCanTelephony.instance.setTheme(TinCanTelephony.properties.THEME_CLASSIC);
+		}
+		if (button.id == 7) {
+			button7.enabled = true;
+			button8.enabled = false;
+			TinCanTelephony.instance.setTheme(TinCanTelephony.properties.THEME_CLEAR);
 		}
 	}
 
