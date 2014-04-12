@@ -2,6 +2,7 @@ package net.medsouz.tct.gui;
 
 import java.util.ArrayList;
 
+import net.medsouz.tct.TinCanTelephony;
 import net.medsouz.tct.gui.window.Window;
 import net.medsouz.tct.gui.window.WindowProfile;
 import net.medsouz.tct.gui.window.WindowSettings;
@@ -86,7 +87,7 @@ public class GuiOverlay extends GuiScreen {
 				    return;
 				}
 			}
-			windows.add(new WindowSettings(this, username, (width / 2) - (175 / 2), (height / 2) - (115 / 2), 175, 115));
+			windows.add(new WindowSettings(this, username, (width / 2) - (175 / 2), (height / 2) - (115 / 2), 175, 150));
 			break;
 		case 5://Servers
 			break;
@@ -144,10 +145,9 @@ public class GuiOverlay extends GuiScreen {
 		if(oldScreen != null) {
 			oldScreen.drawScreen(0, 0, par3);
 		}
-		this.drawGradientRect(0, 0, width, height, -0x3FEFEFF0, -0x2FEFEFF0);
+		this.drawGradientRect(0, 0, width, height, -0x0FEFEFF0, -0x7FEFEFF0);
 		//Background
-		RenderHelper.drawBlockSide(2, 2, 0, height / 2 - 115, 50, 50, 1, 1);
-		RenderHelper.drawBlockSide(2, 0, 0, height / 2 - 65, 50, 180, 1, 150 / 50);
+		TinCanTelephony.curTheme.drawSidebar(this);
 		//Icons
 		//Profile
 		int off = -105;
@@ -203,9 +203,7 @@ public class GuiOverlay extends GuiScreen {
 		}
 		
 		for(Window w : windows) {
-			RenderHelper.drawBlockSide(44, 2, w.getX(), w.getY() - 16, w.getWidth(), 16, w.getWidth() / 50f, 0.5f);//background
-			RenderHelper.drawBlockSide(5, 0, w.getX(), w.getY(), w.getWidth(), w.getHeight(), w.getWidth() / 50f, w.getHeight() / 50f);//title bar
-			RenderHelper.drawBlockSide(46, 2, w.getX() + w.getWidth() - 14, w.getY() - 14, 12, 12);//close button
+			TinCanTelephony.curTheme.drawWindow(w);
 			this.drawCenteredString(Minecraft.getMinecraft().fontRenderer, w.getTitle(), w.getX() + w.getWidth() / 2, w.getY() - 12, 0xFFFFFF);
 			w.drawWindowContents();
 			int x = -1, y = -1;
@@ -236,5 +234,10 @@ public class GuiOverlay extends GuiScreen {
 	
 	public ArrayList<Window> getWindows() {
 		return windows;
+	}
+	
+	@Override
+	public void drawGradientRect(int par1, int par2, int par3, int par4, int par5, int par6) {
+		super.drawGradientRect(par1, par2, par3, par4, par5, par6);
 	}
 }
