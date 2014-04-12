@@ -1,8 +1,8 @@
 package net.medsouz.tct;
 
-import net.medsouz.tct.theme.Theme;
-import net.medsouz.tct.theme.ThemeClassic;
-import net.medsouz.tct.theme.ThemeClear;
+import net.medsouz.tct.gui.theme.Theme;
+import net.medsouz.tct.gui.theme.ThemeClassic;
+import net.medsouz.tct.gui.theme.ThemeClear;
 
 public class Properties {
 	

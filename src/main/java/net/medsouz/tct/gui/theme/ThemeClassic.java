@@ -1,4 +1,4 @@
-package net.medsouz.tct.theme;
+package net.medsouz.tct.gui.theme;
 
 import net.medsouz.tct.gui.GuiOverlay;
 import net.medsouz.tct.gui.RenderHelper;

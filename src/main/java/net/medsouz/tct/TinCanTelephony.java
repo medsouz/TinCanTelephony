@@ -1,8 +1,8 @@
 package net.medsouz.tct;
 
+import net.medsouz.tct.gui.theme.Theme;
 import net.medsouz.tct.networking.TCTConnection;
 import net.medsouz.tct.networking.packet.PacketManager;
-import net.medsouz.tct.theme.Theme;
 import net.minecraft.client.settings.KeyBinding;
 
 import org.lwjgl.input.Keyboard;
@@ -17,7 +17,7 @@ import cpw.mods.fml.relauncher.Side;
 
 /**
  * @author medsouz
- * @autho Ri5ux
+ * @author Ri5ux
  */
 @Mod(modid = Properties.MODID, version = Properties.VERSION)
 public class TinCanTelephony {
