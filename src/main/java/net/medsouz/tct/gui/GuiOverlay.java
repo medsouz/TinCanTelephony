@@ -72,7 +72,7 @@ public class GuiOverlay extends GuiScreen {
 					}
 				}
 			}
-			windows.add(new WindowProfile(this, (width / 2) - (175 / 2), (height / 2) - (115 / 2), 175, 115, username));
+			openWindow(new WindowProfile(this, (width / 2) - (175 / 2), (height / 2) - (115 / 2), 175, 115, username));
 			break;
 		case 1://Friends
 			break;
@@ -83,10 +83,10 @@ public class GuiOverlay extends GuiScreen {
 		case 4://Settings
 			for(Window w : windows) {
 				if(w instanceof WindowSettings) {
-				    return;
+					return;
 				}
 			}
-			windows.add(new WindowSettings(this, username, (width / 2) - (175 / 2), (height / 2) - (115 / 2), 175, 115));
+			openWindow(new WindowSettings(this, username, (width / 2) - (175 / 2), (height / 2) - (140 / 2), 175, 140));
 			break;
 		case 5://Servers
 			break;
@@ -98,13 +98,15 @@ public class GuiOverlay extends GuiScreen {
 		Window top = getTopWindow(mouseX, mouseY);
 		if(top != null) {
 			if(mouseX > top.getX() + top.getWidth() - 14 && mouseX < top.getX() + top.getWidth() - 2 && mouseY < top.getY() - 2 && mouseY > top.getY() - 14){
-				windows.remove(top);
+				closeWindow(top);
 			}
 		}
 		for(int x = 0; x < windows.size(); x++){
 			Window w = windows.get(x);
 			if(top == w){
-				resetWindow = w;
+				if(windows.indexOf(w) != windows.size() - 1) { //only reset if the window isn't on top
+					resetWindow = w;
+				}
 				if(mouseX > w.getX() && mouseX < w.getX() + w.getWidth() && mouseY > w.getY() - 16 && mouseY < w.getY()){
 					draggedWindow = w;
 					mouseXLast = mouseX;
@@ -236,5 +238,14 @@ public class GuiOverlay extends GuiScreen {
 	
 	public ArrayList<Window> getWindows() {
 		return windows;
+	}
+	
+	public void closeWindow(Window w) {
+		w.onClose();
+		windows.remove(w);
+	}
+	
+	public void openWindow(Window w) {
+		windows.add(w);
 	}
 }

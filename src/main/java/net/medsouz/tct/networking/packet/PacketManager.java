@@ -25,6 +25,8 @@ public class PacketManager {
 		packets.add(Packet2AddFriend.class);
 		packets.add(Packet3PlayerNotFound.class);
 		packets.add(Packet4ListFriends.class);
+		packets.add(Packet5RequestData.class);
+		packets.add(Packet6Settings.class);
 	}
 	
 	/**

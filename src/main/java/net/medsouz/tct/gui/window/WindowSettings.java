@@ -1,6 +1,10 @@
 package net.medsouz.tct.gui.window;
 
+import net.medsouz.tct.TinCanTelephony;
+import net.medsouz.tct.api.objects.Settings;
 import net.medsouz.tct.gui.GuiOverlay;
+import net.medsouz.tct.networking.packet.Packet6Settings;
+import net.medsouz.tct.networking.packet.PacketManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 
@@ -12,46 +16,66 @@ import net.minecraft.client.gui.GuiButton;
  */
 public class WindowSettings extends Window {
 
-	GuiButton button1 = new GuiButton(0, 0, 0, 80, 20, "Public"),
-			button2 = new GuiButton(1, 0, 0, 80, 20, "Private"),
-			button3 = new GuiButton(2, 0, 0, 80, 20, "Public"),
-			button4 = new GuiButton(3, 0, 0, 80, 20, "Private"),
-			button5 = new GuiButton(4, 0, 0, 80, 20, "Public"),
-			button6 = new GuiButton(5, 0, 0, 80, 20, "Private");
+	GuiButton publicMessages = new GuiButton(0, 0, 0, 80, 20, "Public"),
+			privateMessages = new GuiButton(1, 0, 0, 80, 20, "Private"),
+			publicServer = new GuiButton(2, 0, 0, 80, 20, "Public"),
+			privateServer = new GuiButton(3, 0, 0, 80, 20, "Private"),
+			publicInvite = new GuiButton(4, 0, 0, 80, 20, "Public"),
+			privateInvite = new GuiButton(5, 0, 0, 80, 20, "Private"),
+			confirm = new GuiButton(6, 0, 0, 80, 20, "Confirm"),
+			cancel = new GuiButton(7, 0, 0, 80, 20, "Cancel");
 
 	public WindowSettings(GuiOverlay g, String t, int x, int y, int w, int h) {
 		super(g, "Settings", x, y, w, h);
-		buttonList.add(button1);
-		buttonList.add(button2);
-		buttonList.add(button3);
-		buttonList.add(button4);
-		buttonList.add(button5);
-		buttonList.add(button6);
+		buttonList.add(publicMessages);
+		buttonList.add(privateMessages);
+		buttonList.add(publicServer);
+		buttonList.add(privateServer);
+		buttonList.add(publicInvite);
+		buttonList.add(privateInvite);
+		buttonList.add(confirm);
+		buttonList.add(cancel);
 		
-		button1.enabled = false;
-		button3.enabled = false;
-		button5.enabled = false;
+		Settings current = TinCanTelephony.instance.getSettings();
+		if(current != null) {
+			publicMessages.enabled = !current.canBeMessagedByPublic();
+			privateMessages.enabled = !publicMessages.enabled;
+			publicServer.enabled = !current.canServerBeSeenByPublic();
+			privateServer.enabled = !publicServer.enabled;
+			publicInvite.enabled = !current.canBeInvitedByPublic();
+			privateInvite.enabled = !publicInvite.enabled;
+		} else {
+			publicMessages.enabled = false;
+			publicServer.enabled = false;
+			publicInvite.enabled = false;
+		}
 	}
 
 	@Override
 	public void drawWindowContents() {
-		button1.xPosition = xPos + 5;
-		button1.yPosition = yPos + 20;
+		publicMessages.xPosition = xPos + 5;
+		publicMessages.yPosition = yPos + 20;
 
-		button2.xPosition = xPos + 89;
-		button2.yPosition = yPos + 20;
+		privateMessages.xPosition = xPos + 89;
+		privateMessages.yPosition = yPos + 20;
 
-		button3.xPosition = xPos + 5;
-		button3.yPosition = yPos + 55;
+		publicServer.xPosition = xPos + 5;
+		publicServer.yPosition = yPos + 55;
 
-		button4.xPosition = xPos + 89;
-		button4.yPosition = yPos + 55;
+		privateServer.xPosition = xPos + 89;
+		privateServer.yPosition = yPos + 55;
 
-		button5.xPosition = xPos + 5;
-		button5.yPosition = yPos + 90;
+		publicInvite.xPosition = xPos + 5;
+		publicInvite.yPosition = yPos + 90;
 
-		button6.xPosition = xPos + 89;
-		button6.yPosition = yPos + 90;
+		privateInvite.xPosition = xPos + 89;
+		privateInvite.yPosition = yPos + 90;
+		
+		confirm.xPosition = xPos + 5;
+		confirm.yPosition = yPos + 115;
+		
+		cancel.xPosition = xPos + 89;
+		cancel.yPosition = yPos + 115;
 
 		Minecraft.getMinecraft().fontRenderer.drawStringWithShadow("Private Messages", xPos + 6, yPos + 8, 0xFFFFFF);
 		Minecraft.getMinecraft().fontRenderer.drawStringWithShadow("Current Server", xPos + 6, yPos + 43, 0xFFFFFF);
@@ -66,34 +90,45 @@ public class WindowSettings extends Window {
 	@Override
 	public void onButtonPress(GuiButton button) {
 		if (button.id == 0) {
-			System.out.println("Anyone can send me messages!");
-			button1.enabled = false;
-			button2.enabled = true;
+			//System.out.println("Anyone can send me messages!");
+			publicMessages.enabled = false;
+			privateMessages.enabled = true;
 		}
 		if (button.id == 1) {
-			System.out.println("Only friends can send me messages!");
-			button1.enabled = true;
-			button2.enabled = false;
+			//System.out.println("Only friends can send me messages!");
+			publicMessages.enabled = true;
+			privateMessages.enabled = false;
 		}
 		if (button.id == 2) {
-			System.out.println("Anyone can see what server I'm on!");
-			button3.enabled = false;
-			button4.enabled = true;
+			//System.out.println("Anyone can see what server I'm on!");
+			publicServer.enabled = false;
+			privateServer.enabled = true;
 		}
 		if (button.id == 3) {
-			System.out.println("Only friends can see what server I'm on!");
-			button3.enabled = true;
-			button4.enabled = false;
+			//System.out.println("Only friends can see what server I'm on!");
+			publicServer.enabled = true;
+			privateServer.enabled = false;
 		}
 		if (button.id == 4) {
-			System.out.println("Anyone can invite me to a server!");
-			button5.enabled = false;
-			button6.enabled = true;
+			//System.out.println("Anyone can invite me to a server!");
+			publicInvite.enabled = false;
+			privateInvite.enabled = true;
 		}
 		if (button.id == 5) {
-			System.out.println("Only friends can invite me to a server!");
-			button5.enabled = true;
-			button6.enabled = false;
+			//System.out.println("Only friends can invite me to a server!");
+			publicInvite.enabled = true;
+			privateInvite.enabled = false;
+		}
+		if(button.id == 6) {
+			Packet6Settings settings = new Packet6Settings();
+			Settings s = new Settings(!publicInvite.enabled, !publicMessages.enabled, !publicServer.enabled);
+			settings.settings = s;
+			PacketManager.sendPacket(settings, TinCanTelephony.instance.getConnection().out);
+			TinCanTelephony.instance.setSettings(s);
+			overlay.closeWindow(this);
+		}
+		if(button.id == 7) {
+			overlay.closeWindow(this);
 		}
 	}
 

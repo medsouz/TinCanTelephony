@@ -4,8 +4,10 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.List;
 
+import net.medsouz.tct.TinCanTelephony;
 import net.medsouz.tct.api.FriendManager;
 import net.medsouz.tct.api.objects.Friend;
+import net.medsouz.tct.api.objects.Settings;
 import net.medsouz.tct.networking.packet.PacketManager;
 
 public class InputThread extends Thread{
@@ -57,6 +59,9 @@ public class InputThread extends Thread{
 				break;
 			case 4:
 				FriendManager.setFriends((List<Friend>) PacketManager.readPacket(packetId, data));
+				break;
+			case 6:
+				TinCanTelephony.instance.setSettings((Settings)PacketManager.readPacket(packetId, data));
 				break;
 			default:
 				System.out.println("Recieved invalid packet! (ID == " + packetId + ")");

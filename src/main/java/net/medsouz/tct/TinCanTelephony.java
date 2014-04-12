@@ -1,5 +1,6 @@
 package net.medsouz.tct;
 
+import net.medsouz.tct.api.objects.Settings;
 import net.medsouz.tct.networking.TCTConnection;
 import net.medsouz.tct.networking.packet.PacketManager;
 import net.minecraft.client.settings.KeyBinding;
@@ -29,6 +30,7 @@ public class TinCanTelephony {
 	public static TinCanTelephony instance;
 	
 	private TCTConnection connection;
+	private Settings settings;
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
@@ -42,5 +44,13 @@ public class TinCanTelephony {
 
 	public TCTConnection getConnection() {
 		return connection;
+	}
+	
+	public Settings getSettings() {
+		return settings;
+	}
+
+	public void setSettings(Settings s) {
+		settings = s;
 	}
 }
