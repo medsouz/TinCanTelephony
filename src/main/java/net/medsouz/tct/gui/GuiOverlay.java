@@ -3,6 +3,7 @@ package net.medsouz.tct.gui;
 import java.util.ArrayList;
 
 import net.medsouz.tct.gui.window.Window;
+import net.medsouz.tct.gui.window.WindowAbout;
 import net.medsouz.tct.gui.window.WindowProfile;
 import net.medsouz.tct.gui.window.WindowSettings;
 import net.minecraft.client.Minecraft;
@@ -88,7 +89,8 @@ public class GuiOverlay extends GuiScreen {
 			}
 			openWindow(new WindowSettings(this, username, (width / 2) - (175 / 2), (height / 2) - (140 / 2), 175, 140));
 			break;
-		case 5://Servers
+		case 5://About
+			openWindow(new WindowAbout(this, (width / 2) - (175 / 2), (height / 2) - (100 / 2)));
 			break;
 		}
 	}
@@ -176,11 +178,11 @@ public class GuiOverlay extends GuiScreen {
 		RenderHelper.drawItemIcon(257, 9, height / 2 + off, 32, 32);
 		off += wordSpacing;
 		this.drawCenteredString(Minecraft.getMinecraft().fontRenderer, "Settings", 25, height / 2 + off, 0xFFFFFF);
-		//Servers
+		//About
 		off += iconSpacing;
-		RenderHelper.drawItemIcon(399, 9, height / 2 + off, 32, 32);
+		RenderHelper.drawItemIcon(340, 9, height / 2 + off, 32, 32);
 		off += wordSpacing;
-		this.drawCenteredString(Minecraft.getMinecraft().fontRenderer, "Servers", 25, height / 2 + off, 0xFFFFFF);
+		this.drawCenteredString(Minecraft.getMinecraft().fontRenderer, "About", 25, height / 2 + off, 0xFFFFFF);
 		
 		//put the most recently moved window on top
 		if(resetWindow != null){
