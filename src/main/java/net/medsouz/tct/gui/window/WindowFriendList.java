@@ -3,6 +3,7 @@ package net.medsouz.tct.gui.window;
 import net.medsouz.tct.api.FriendManager;
 import net.medsouz.tct.api.objects.Friend;
 import net.medsouz.tct.gui.GuiOverlay;
+import net.medsouz.tct.gui.RenderHelper;
 import net.medsouz.tct.gui.window.element.GuiTextFieldWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -40,6 +41,7 @@ public class WindowFriendList extends Window {
 		// /What it will look like:
 		for (int fr = 0; fr < FriendManager.getFriends().size(); fr++) {
 			Friend f = FriendManager.getFriends().get(fr);
+			RenderHelper.drawImage(RenderHelper.downloadImage("https://minotar.net/helm/"+ f.getUsername() +"/32.png"), xPos + 5, (yPos)+(fr*40), 32, 32);
 			overlay.drawString(Minecraft.getMinecraft().fontRenderer, f.getUsername(), xPos + 40, (yPos) + (fr * 40), 0xFFFFFF);
 			overlay.drawString(Minecraft.getMinecraft().fontRenderer, f.getStatus(), xPos + 40, (yPos) + (fr * 40) + 10, (f.getStatus().toLowerCase().equals("offline")) ? 0xFF0000 : 0x33FF00);
 		}
