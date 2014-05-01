@@ -1,16 +1,9 @@
 package net.medsouz.tct.gui;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import net.medsouz.tct.api.FriendManager;
-import net.medsouz.tct.api.objects.Friend;
 import net.medsouz.tct.gui.window.Window;
-<<<<<<< HEAD
 import net.medsouz.tct.gui.window.WindowAbout;
-=======
 import net.medsouz.tct.gui.window.WindowFriendList;
->>>>>>> 39bb49fab38f860275714ac3a542f54958b5e1fd
 import net.medsouz.tct.gui.window.WindowProfile;
 import net.medsouz.tct.gui.window.WindowSettings;
 import net.minecraft.client.Minecraft;
@@ -83,15 +76,14 @@ public class GuiOverlay extends GuiScreen {
 			openWindow(new WindowProfile(this, (width / 2) - (175 / 2), (height / 2) - (115 / 2), 175, 115, username));
 			break;
 		case 1://Friends
-				for(Window w : windows) { //Don't open the window if it already exists
-					if(w instanceof WindowFriendList) {
-						if(w.getTitle() == "Friends") {
-							return;
-						}
+			for(Window w : windows) { //Don't open the window if it already exists
+				if(w instanceof WindowFriendList) {
+					if(w.getTitle() == "Friends") {
+						return;
 					}
 				}
-			
-				windows.add(new WindowFriendList(this, "Friends", (width / 2) - (175 / 2), (height / 2) - (115 / 2), 175, 115));			
+			}
+			windows.add(new WindowFriendList(this, "Friends", (width / 2) - (175 / 2), (height / 2) - (115 / 2), 175, 115));			
 			break;
 		case 2://Messages
 			break;
