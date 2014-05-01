@@ -1,9 +1,16 @@
 package net.medsouz.tct.gui;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import net.medsouz.tct.api.FriendManager;
+import net.medsouz.tct.api.objects.Friend;
 import net.medsouz.tct.gui.window.Window;
+<<<<<<< HEAD
 import net.medsouz.tct.gui.window.WindowAbout;
+=======
+import net.medsouz.tct.gui.window.WindowFriendList;
+>>>>>>> 39bb49fab38f860275714ac3a542f54958b5e1fd
 import net.medsouz.tct.gui.window.WindowProfile;
 import net.medsouz.tct.gui.window.WindowSettings;
 import net.minecraft.client.Minecraft;
@@ -27,10 +34,10 @@ public class GuiOverlay extends GuiScreen {
 	String username = Minecraft.getMinecraft().getSession().getUsername();
 	protected GuiScreen oldScreen;
 	private Window resetWindow = null;
-	private ArrayList<Window> windows = new ArrayList<Window>();
-
+	public ArrayList<Window> windows = new ArrayList<Window>();
 	public GuiOverlay(GuiScreen par1GuiScreen) {
 		this.oldScreen = par1GuiScreen;
+		
 	}
 
 	/**
@@ -76,6 +83,15 @@ public class GuiOverlay extends GuiScreen {
 			openWindow(new WindowProfile(this, (width / 2) - (175 / 2), (height / 2) - (115 / 2), 175, 115, username));
 			break;
 		case 1://Friends
+				for(Window w : windows) { //Don't open the window if it already exists
+					if(w instanceof WindowFriendList) {
+						if(w.getTitle() == "Friends") {
+							return;
+						}
+					}
+				}
+			
+				windows.add(new WindowFriendList(this, "Friends", (width / 2) - (175 / 2), (height / 2) - (115 / 2), 175, 115));			
 			break;
 		case 2://Messages
 			break;
@@ -207,6 +223,7 @@ public class GuiOverlay extends GuiScreen {
 		}
 		
 		for(Window w : windows) {
+			 GL11.glColor3f(1f, 1f, 1f);//fix color leak at line 196 of GuiOverlay
 			RenderHelper.drawBlockSide(44, 2, w.getX(), w.getY() - 16, w.getWidth(), 16, w.getWidth() / 50f, 0.5f);//background
 			RenderHelper.drawBlockSide(5, 0, w.getX(), w.getY(), w.getWidth(), w.getHeight(), w.getWidth() / 50f, w.getHeight() / 50f);//title bar
 			RenderHelper.drawBlockSide(46, 2, w.getX() + w.getWidth() - 14, w.getY() - 14, 12, 12);//close button
