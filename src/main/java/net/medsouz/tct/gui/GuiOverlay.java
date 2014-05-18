@@ -46,6 +46,7 @@ public class GuiOverlay extends GuiScreen {
 	 */
 	protected void keyTyped(char par1, int par2) {
 		if(par2 == Keyboard.KEY_ESCAPE) {
+			closeAllWindows();
 			Minecraft.getMinecraft().currentScreen = oldScreen;
 		}
 		if(windows.size() > 0) {
@@ -258,5 +259,12 @@ public class GuiOverlay extends GuiScreen {
 	
 	public void openWindow(Window w) {
 		windows.add(w);
+	}
+	
+	public void closeAllWindows() {
+		for(Window w : windows) {
+			w.onClose();
+		}
+		windows.clear();
 	}
 }
