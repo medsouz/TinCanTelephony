@@ -14,18 +14,19 @@ public class WindowFriendList extends Window {
 
 	public WindowFriendList(GuiOverlay g, String t, int x, int y, int w, int h) {
 		super(g, "Friends", x, y, w, h);
-		search = new GuiTextFieldWrapper(Minecraft.getMinecraft().fontRenderer, xPos, yPos, 100, 20);
-		add = new GuiButton(1, xPos, yPos, 40, 20, "Add");
+		search = new GuiTextFieldWrapper(Minecraft.getMinecraft().fontRenderer, xPos, yPos, 100, 20); 
 		search.setMaxStringLength(100);
 		search.setEnableBackgroundDrawing(true);
 		search.setFocused(true);
 		search.setText("Username");
-		search.setCanLoseFocus(false);
+		search.setCanLoseFocus(true);
 		Keyboard.enableRepeatEvents(true);
+		buttonList.add(add);
+		FriendManager.updateFriends();
 	}
 
 	public GuiTextFieldWrapper search;
-	GuiButton add;
+	GuiButton add = new GuiButton(1, 0, 0, 40, 20, "Add");
 
 	public int pagesize, pagenum = 1;
 
@@ -33,7 +34,6 @@ public class WindowFriendList extends Window {
 	public void drawWindowContents() {
 		add.xPosition = xPos + 115;
 		add.yPosition = yPos + 85;
-		buttonList.add(add);
 		search.setXPos(xPos + 10);
 		search.setYPos(yPos + height - 30);
 		search.drawTextBox();
@@ -53,16 +53,7 @@ public class WindowFriendList extends Window {
 
 	public void onButtonPress(GuiButton button) {
 		if (button.equals(add)) {
-			for (Window w : this.overlay.getWindows()) { // Don't open the
-															// window if it
-															// already exists
-				if (w instanceof WindowProfile) {
-					if (((WindowProfile) w).getUsername() == search.getText()) {
-						return;
-					}
-				}
-			}
-			this.overlay.getWindows().add(new WindowProfile(this.overlay, (600 / 2) - (175 / 2), (600 / 2) - (115 / 2), 175, 115, search.getText()));
+			FriendManager.addFriend(search.getText());
 		}
 	}
 
