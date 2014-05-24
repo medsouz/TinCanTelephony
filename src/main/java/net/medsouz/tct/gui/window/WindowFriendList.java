@@ -53,16 +53,14 @@ public class WindowFriendList extends Window {
 
 	public void onButtonPress(GuiButton button) {
 		if (button.equals(add)) {
-			for (Window w : this.overlay.getWindows()) { // Don't open the
-															// window if it
-															// already exists
+			for (Window w : this.overlay.getWindows()) { // Don't open the window if it already exists
 				if (w instanceof WindowProfile) {
 					if (((WindowProfile) w).getUsername() == search.getText()) {
 						return;
 					}
 				}
 			}
-			this.overlay.getWindows().add(new WindowProfile(this.overlay, (600 / 2) - (175 / 2), (600 / 2) - (115 / 2), 175, 115, search.getText()));
+			this.overlay.getWindows().add(new WindowProfile(this.overlay, (this.overlay.width / 2) - (175 / 2), (this.overlay.height / 2) - (115 / 2), 175, 115, search.getText()));
 		}
 	}
 

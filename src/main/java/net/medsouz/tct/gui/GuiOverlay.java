@@ -24,7 +24,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  */
 @SideOnly(Side.CLIENT)
 public class GuiOverlay extends GuiScreen {
-	String username = Minecraft.getMinecraft().getSession().getUsername();
+	public String username = Minecraft.getMinecraft().getSession().getUsername();
 	protected GuiScreen oldScreen;
 	private Window resetWindow = null;
 	public ArrayList<Window> windows = new ArrayList<Window>();
