@@ -5,7 +5,11 @@ import org.lwjgl.input.Keyboard;
 import net.medsouz.tct.api.FriendManager;
 import net.medsouz.tct.gui.GuiOverlay;
 import net.medsouz.tct.gui.RenderHelper;
+import net.medsouz.tct.gui.window.Window;
+import net.medsouz.tct.networking.TCTConnection;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.util.ResourceLocation;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -18,21 +22,30 @@ import cpw.mods.fml.common.gameevent.TickEvent.RenderTickEvent;
  */
 public class TickHandler {
 	Minecraft mc = Minecraft.getMinecraft();
-
 	/**
 	 * Used to render the overlay.
 	 * 
 	 * @param event
 	 *            The render tick event
 	 */
+	Gui gui = new Gui();
 	@SubscribeEvent
 	public void renderTick(RenderTickEvent event) {
 		// Don't hardcode this
 		if (!(mc.currentScreen != null && (mc.currentScreen instanceof GuiOverlay))) {
-			RenderHelper.drawImage(new ResourceLocation("tct", "textures/person.png"), 5, 4, 16, 16, 0.5f);
-			Minecraft.getMinecraft().fontRenderer.drawString(Integer.toString(FriendManager.getOnlineFriendsCount()), 17, 15, 0xFFFFFF);
-			RenderHelper.drawImage(new ResourceLocation("tct", "textures/envelope.png"), 5, 23, 16, 16, 0.5f);
-			Minecraft.getMinecraft().fontRenderer.drawString("0", 17, 32, 0xFFFFFF);
+			if(mc.currentScreen instanceof net.minecraft.client.gui.GuiMainMenu){
+				//FontRenderer, String, int, int, int
+				//string, x, y, color, dropShadow
+				if(TCTConnection.isConnected){
+					RenderHelper.drawItemIcon(388, 0, 0, 16, 16);
+					gui.drawString(mc.fontRenderer, "Connected! (" + FriendManager.getOnlineFriendsCount() + ")", 17, 5, 0xFFFFFF);
+					
+				}
+				else if(!TCTConnection.isConnected){
+					gui.drawString(mc.fontRenderer, "Not connected", 17, 5, 0xFFFFFF);
+					RenderHelper.drawItemIcon(331, 0, 0, 16, 16);
+				}
+			}
 		}
 	}
 

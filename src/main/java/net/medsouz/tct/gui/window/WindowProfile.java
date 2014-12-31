@@ -1,6 +1,7 @@
 package net.medsouz.tct.gui.window;
 
 import net.medsouz.tct.api.FriendManager;
+import net.medsouz.tct.api.objects.Friend;
 import net.medsouz.tct.gui.GuiOverlay;
 import net.medsouz.tct.gui.RenderHelper;
 import net.minecraft.client.Minecraft;
@@ -13,6 +14,7 @@ import cpw.mods.fml.common.Loader;
  */
 public class WindowProfile extends Window {
 	boolean isSelf;
+	boolean areFriends;
 	String username;
 	GuiButton addFriend = new GuiButton(1, 0, 0, 80, 20, "Add Friend");
 	GuiButton sendMessage = new GuiButton(1, 0, 0, 80, 20, "Send Message");
@@ -36,6 +38,11 @@ public class WindowProfile extends Window {
 		buttonList.add(invite);
 		buttonList.add(viewMods);
 		buttonList.add(groups);
+		}
+		if(FriendManager.getFriends().contains(new Friend(user, "Ingame", true))){
+			areFriends = true;
+		}else{
+			areFriends = false;
 		}
 		username = user;
 	}
@@ -67,6 +74,9 @@ public class WindowProfile extends Window {
 			sendMessage.yPosition = yPos + height - 22;
 			addFriend.xPosition = xPos + 90;
 			addFriend.yPosition = yPos + height - 22;
+			if(areFriends){
+				addFriend.enabled = false;
+			}
 		}
 		
 	}

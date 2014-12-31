@@ -65,6 +65,7 @@ public class WindowFriendList extends Window {
 	}
 
 	public void keyTyped(char c, int id) {
+		if(search.getText().equals("Username")) search.setText("");
 		search.textboxKeyTyped(c, id);
 	}
 

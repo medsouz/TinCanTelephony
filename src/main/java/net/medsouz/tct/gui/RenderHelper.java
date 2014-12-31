@@ -1,14 +1,18 @@
 package net.medsouz.tct.gui;
 
+import java.io.File;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.IImageBuffer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.ThreadDownloadImageData;
 import net.minecraft.client.renderer.texture.ITextureObject;
 import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.client.resources.SkinManager;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
@@ -116,7 +120,7 @@ public class RenderHelper {
 		TextureManager texturemanager = Minecraft.getMinecraft().getTextureManager();
 		Object object = texturemanager.getTexture(r);
 		if (object == null) {
-			object = new ThreadDownloadImageData(URL, fallback, null);
+			object = new ThreadDownloadImageData(null, URL, SkinManager.field_152793_a, null);
 			texturemanager.loadTexture(r, (ITextureObject) object);
 		}
 		return r;

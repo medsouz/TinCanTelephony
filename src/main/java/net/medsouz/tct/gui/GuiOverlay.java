@@ -1,11 +1,15 @@
 package net.medsouz.tct.gui;
 
 import java.util.ArrayList;
+
+import net.medsouz.tct.api.FriendManager;
 import net.medsouz.tct.gui.window.Window;
 import net.medsouz.tct.gui.window.WindowAbout;
 import net.medsouz.tct.gui.window.WindowFriendList;
+import net.medsouz.tct.gui.window.WindowMessages;
 import net.medsouz.tct.gui.window.WindowProfile;
 import net.medsouz.tct.gui.window.WindowSettings;
+import net.medsouz.tct.networking.TCTConnection;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -87,6 +91,14 @@ public class GuiOverlay extends GuiScreen {
 			windows.add(new WindowFriendList(this, "Friends", (width / 2) - (175 / 2), (height / 2) - (115 / 2), 175, 115));			
 			break;
 		case 2://Messages
+			for(Window w : windows) { //Don't open the window if it already exists
+				if(w instanceof WindowMessages) {
+					if(w.getTitle() == "Messages - " + WindowMessages.getUnreadCount()) {
+						return;
+					}
+				}
+			}
+			windows.add(new WindowMessages(this, "Messages - " + WindowMessages.getUnreadCount(), (width / 2) - (175 / 2), (height / 2) - (115 / 2), 175, 115));	
 			break;
 		case 3://Groups
 			break;
@@ -157,7 +169,12 @@ public class GuiOverlay extends GuiScreen {
 		if(oldScreen != null) {
 			oldScreen.drawScreen(0, 0, par3);
 		}
-		this.drawGradientRect(0, 0, width, height, -0x3FEFEFF0, -0x2FEFEFF0);
+		if(!TCTConnection.isConnected) {
+			this.drawGradientRect(0, 0, width, height, -0x3FEFEFF0, -0x2FEFEFF0);
+			this.drawCenteredString(mc.fontRenderer, "Not connected to the TCT server!", width/2, 5, 0xCC0000);
+			//Fix colour leak
+			 GL11.glColor3f(1f, 1f, 1f);
+		}
 		//Background
 		RenderHelper.drawBlockSide(2, 2, 0, height / 2 - 115, 50, 50, 1, 1);
 		RenderHelper.drawBlockSide(2, 0, 0, height / 2 - 65, 50, 180, 1, 150 / 50);
@@ -170,8 +187,10 @@ public class GuiOverlay extends GuiScreen {
 		//Friends
 		off += iconSpacing;
 		RenderHelper.drawParticle(80, 9, height / 2 + off, 32, 32);
+		
 		off += wordSpacing;
 		this.drawCenteredString(Minecraft.getMinecraft().fontRenderer, "Friends", 25, height / 2 + off, 0xFFFFFF);
+		
 		//Messages
 		off += iconSpacing;
 		RenderHelper.drawItemIcon(339, 9, height / 2 + off, 32, 32);
@@ -216,7 +235,7 @@ public class GuiOverlay extends GuiScreen {
 		}
 		
 		for(Window w : windows) {
-			 GL11.glColor3f(1f, 1f, 1f);//fix color leak at line 196 of GuiOverlay
+			GL11.glColor3f(1f, 1f, 1f);//fix color leak at line 196 of GuiOverlay
 			RenderHelper.drawBlockSide(44, 2, w.getX(), w.getY() - 16, w.getWidth(), 16, w.getWidth() / 50f, 0.5f);//background
 			RenderHelper.drawBlockSide(5, 0, w.getX(), w.getY(), w.getWidth(), w.getHeight(), w.getWidth() / 50f, w.getHeight() / 50f);//title bar
 			RenderHelper.drawBlockSide(46, 2, w.getX() + w.getWidth() - 14, w.getY() - 14, 12, 12);//close button
@@ -235,6 +254,7 @@ public class GuiOverlay extends GuiScreen {
 		super.drawScreen(mouseX, mouseY, par3);
 	}
 	
+
 	public void setWorldAndResolution(Minecraft mc, int width, int height) {
 		if(oldScreen != null) {
 			oldScreen.setWorldAndResolution(mc, width, height);

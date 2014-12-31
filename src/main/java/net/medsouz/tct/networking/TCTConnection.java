@@ -17,6 +17,7 @@ public class TCTConnection {
 	public InputThread in;
 	public DataOutputStream out;
 	private Socket socket;
+	public static boolean isConnected;
 
 	public TCTConnection() {
 		try {
@@ -29,8 +30,11 @@ public class TCTConnection {
 			login.sessionID = Minecraft.getMinecraft().getSession().getSessionID();
 			PacketManager.sendPacket(login, out);
 			out.flush();
+			isConnected = true;
 		} catch (Exception e) {
+			System.out.println("Could not connect to TCT Server!");
 			e.printStackTrace();
+			isConnected = false;
 		}
 	}
 
